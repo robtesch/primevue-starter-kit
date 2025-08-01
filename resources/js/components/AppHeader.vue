@@ -2,8 +2,6 @@
 import AppLogo from '@/components/AppLogo.vue';
 import AppLogoIcon from '@/components/AppLogoIcon.vue';
 import Breadcrumbs from '@/components/Breadcrumbs.vue';
-import { Avatar, AvatarFallback, AvatarImage } from '@/components/ui/avatar';
-import { Button } from '@/components/ui/button';
 import { DropdownMenu, DropdownMenuContent, DropdownMenuTrigger } from '@/components/ui/dropdown-menu';
 import { NavigationMenu, NavigationMenuItem, NavigationMenuList, navigationMenuTriggerStyle } from '@/components/ui/navigation-menu';
 import { Sheet, SheetContent, SheetHeader, SheetTitle, SheetTrigger } from '@/components/ui/sheet';
@@ -13,6 +11,8 @@ import { getInitials } from '@/composables/useInitials';
 import { AppPageProps, BreadcrumbItem, NavItem } from '@/types';
 import { Link, usePage } from '@inertiajs/vue3';
 import { BookOpen, Folder, LayoutGrid, Menu, Search } from 'lucide-vue-next';
+import Avatar from 'primevue/avatar';
+import Button from 'primevue/button';
 import { computed } from 'vue';
 
 interface Props {
@@ -62,7 +62,7 @@ const rightNavItems: NavItem[] = [
                 <div class="lg:hidden">
                     <Sheet>
                         <SheetTrigger :as-child="true">
-                            <Button variant="ghost" size="icon" class="mr-2 h-9 w-9">
+                            <Button text rounded class="mr-2 h-9 w-9">
                                 <Menu class="h-5 w-5" />
                             </Button>
                         </SheetTrigger>
@@ -129,7 +129,7 @@ const rightNavItems: NavItem[] = [
 
                 <div class="ml-auto flex items-center space-x-2">
                     <div class="relative flex items-center space-x-1">
-                        <Button variant="ghost" size="icon" class="group h-9 w-9 cursor-pointer">
+                        <Button text rounded class="group h-9 w-9 cursor-pointer">
                             <Search class="size-5 opacity-80 group-hover:opacity-100" />
                         </Button>
 
@@ -138,7 +138,7 @@ const rightNavItems: NavItem[] = [
                                 <TooltipProvider :delay-duration="0">
                                     <Tooltip>
                                         <TooltipTrigger>
-                                            <Button variant="ghost" size="icon" as-child class="group h-9 w-9 cursor-pointer">
+                                            <Button text rounded as-child class="group h-9 w-9 cursor-pointer">
                                                 <a :href="item.href" target="_blank" rel="noopener noreferrer">
                                                     <span class="sr-only">{{ item.title }}</span>
                                                     <component :is="item.icon" class="size-5 opacity-80 group-hover:opacity-100" />
@@ -156,17 +156,20 @@ const rightNavItems: NavItem[] = [
 
                     <DropdownMenu>
                         <DropdownMenuTrigger :as-child="true">
-                            <Button
-                                variant="ghost"
-                                size="icon"
-                                class="relative size-10 w-auto rounded-full p-1 focus-within:ring-2 focus-within:ring-primary"
-                            >
-                                <Avatar class="size-8 overflow-hidden rounded-full">
-                                    <AvatarImage v-if="auth.user.avatar" :src="auth.user.avatar" :alt="auth.user.name" />
-                                    <AvatarFallback class="rounded-lg bg-neutral-200 font-semibold text-black dark:bg-neutral-700 dark:text-white">
-                                        {{ getInitials(auth.user?.name) }}
-                                    </AvatarFallback>
-                                </Avatar>
+                            <Button text rounded class="relative size-10 w-auto rounded-full p-1 focus-within:ring-2 focus-within:ring-primary">
+                                <Avatar
+                                    v-if="auth.user.avatar"
+                                    :image="auth.user.avatar"
+                                    :alt="auth.user.name"
+                                    shape="circle"
+                                    class="size-8 overflow-hidden rounded-full"
+                                />
+                                <Avatar
+                                    v-else
+                                    :label="getInitials(auth.user?.name)"
+                                    shape="circle"
+                                    class="size-8 overflow-hidden rounded-full bg-neutral-200 font-semibold text-black dark:bg-neutral-700 dark:text-white"
+                                />
                             </Button>
                         </DropdownMenuTrigger>
                         <DropdownMenuContent align="end" class="w-56">

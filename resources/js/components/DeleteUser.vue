@@ -5,7 +5,6 @@ import { ref } from 'vue';
 // Components
 import HeadingSmall from '@/components/HeadingSmall.vue';
 import InputError from '@/components/InputError.vue';
-import { Button } from '@/components/ui/button';
 import {
     Dialog,
     DialogClose,
@@ -18,6 +17,7 @@ import {
 } from '@/components/ui/dialog';
 import { Input } from '@/components/ui/input';
 import { Label } from '@/components/ui/label';
+import Button from 'primevue/button';
 
 const passwordInput = ref<HTMLInputElement | null>(null);
 
@@ -52,7 +52,7 @@ const closeModal = () => {
             </div>
             <Dialog>
                 <DialogTrigger as-child>
-                    <Button variant="destructive">Delete account</Button>
+                    <Button severity="danger">Delete account</Button>
                 </DialogTrigger>
                 <DialogContent>
                     <form class="space-y-6" @submit="deleteUser">
@@ -72,10 +72,10 @@ const closeModal = () => {
 
                         <DialogFooter class="gap-2">
                             <DialogClose as-child>
-                                <Button variant="secondary" @click="closeModal"> Cancel </Button>
+                                <Button severity="secondary" @click="closeModal"> Cancel </Button>
                             </DialogClose>
 
-                            <Button type="submit" variant="destructive" :disabled="form.processing"> Delete account </Button>
+                            <Button type="submit" severity="danger" :disabled="form.processing"> Delete account </Button>
                         </DialogFooter>
                     </form>
                 </DialogContent>

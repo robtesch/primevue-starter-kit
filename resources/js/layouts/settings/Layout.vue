@@ -1,9 +1,9 @@
 <script setup lang="ts">
 import Heading from '@/components/Heading.vue';
-import { Button } from '@/components/ui/button';
 import { Separator } from '@/components/ui/separator';
 import { AppPageProps, type NavItem } from '@/types';
 import { Link, usePage } from '@inertiajs/vue3';
+import Button from 'primevue/button';
 
 const sidebarNavItems: NavItem[] = [
     {
@@ -35,7 +35,7 @@ const currentPath = page.props.ziggy?.location ? new URL(page.props.ziggy.locati
                     <Button
                         v-for="item in sidebarNavItems"
                         :key="item.href"
-                        variant="ghost"
+                        text
                         :class="['w-full justify-start', { 'bg-muted': currentPath === item.href }]"
                         as-child
                     >

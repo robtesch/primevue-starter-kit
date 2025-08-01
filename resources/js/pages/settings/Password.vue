@@ -6,10 +6,10 @@ import { Head, useForm } from '@inertiajs/vue3';
 import { ref } from 'vue';
 
 import HeadingSmall from '@/components/HeadingSmall.vue';
-import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
 import { Label } from '@/components/ui/label';
 import { type BreadcrumbItem } from '@/types';
+import Button from 'primevue/button';
 
 const breadcrumbItems: BreadcrumbItem[] = [
     {
@@ -101,7 +101,7 @@ const updatePassword = () => {
                     </div>
 
                     <div class="flex items-center gap-4">
-                        <Button :disabled="form.processing">Save password</Button>
+                        <Button :disabled="form.processing" :loading="form.processing">Save password</Button>
 
                         <Transition
                             enter-active-class="transition ease-in-out"
