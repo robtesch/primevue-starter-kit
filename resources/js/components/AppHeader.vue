@@ -2,18 +2,34 @@
 import AppLogo from '@/components/AppLogo.vue';
 import AppLogoIcon from '@/components/AppLogoIcon.vue';
 import Breadcrumbs from '@/components/Breadcrumbs.vue';
-import { DropdownMenu, DropdownMenuContent, DropdownMenuTrigger } from '@/components/ui/dropdown-menu';
 import { NavigationMenu, NavigationMenuItem, NavigationMenuList, navigationMenuTriggerStyle } from '@/components/ui/navigation-menu';
 import { Sheet, SheetContent, SheetHeader, SheetTitle, SheetTrigger } from '@/components/ui/sheet';
 import { Tooltip, TooltipContent, TooltipProvider, TooltipTrigger } from '@/components/ui/tooltip';
-import UserMenuContent from '@/components/UserMenuContent.vue';
 import { getInitials } from '@/composables/useInitials';
 import { AppPageProps, BreadcrumbItem, NavItem } from '@/types';
-import { Link, usePage } from '@inertiajs/vue3';
-import { BookOpen, Folder, LayoutGrid, Menu, Search } from 'lucide-vue-next';
+import { Link, router, usePage } from '@inertiajs/vue3';
+import { BookOpen, Folder, LayoutGrid, Search } from 'lucide-vue-next';
 import Avatar from 'primevue/avatar';
 import Button from 'primevue/button';
-import { computed } from 'vue';
+import Menu from 'primevue/menu';
+import { computed, ref } from 'vue';
+
+const userMenu = ref();
+
+const userMenuItems = ref([
+    {
+        label: 'Settings',
+        icon: 'pi pi-cog',
+        route: route('profile.edit'),
+    },
+    {
+        label: 'Log out',
+        icon: 'pi pi-sign-out',
+        command: () => {
+            router.post(route('logout'));
+        },
+    },
+]);
 
 interface Props {
     breadcrumbs?: BreadcrumbItem[];
@@ -154,28 +170,34 @@ const rightNavItems: NavItem[] = [
                         </div>
                     </div>
 
-                    <DropdownMenu>
-                        <DropdownMenuTrigger :as-child="true">
-                            <Button text rounded class="relative size-10 w-auto rounded-full p-1 focus-within:ring-2 focus-within:ring-primary">
-                                <Avatar
-                                    v-if="auth.user.avatar"
-                                    :image="auth.user.avatar"
-                                    :alt="auth.user.name"
-                                    shape="circle"
-                                    class="size-8 overflow-hidden rounded-full"
-                                />
-                                <Avatar
-                                    v-else
-                                    :label="getInitials(auth.user?.name)"
-                                    shape="circle"
-                                    class="size-8 overflow-hidden rounded-full bg-neutral-200 font-semibold text-black dark:bg-neutral-700 dark:text-white"
-                                />
-                            </Button>
-                        </DropdownMenuTrigger>
-                        <DropdownMenuContent align="end" class="w-56">
-                            <UserMenuContent :user="auth.user" />
-                        </DropdownMenuContent>
-                    </DropdownMenu>
+                    <Menu :model="userMenuItems" popup ref="userMenu">
+                        <template #item="{ item, props }">
+                            <a v-ripple :href="item.route" v-bind="props.action" class="flex items-center">
+                                <span :class="item.icon" />
+                                <span class="ml-2">{{ item.label }}</span>
+                            </a>
+                        </template>
+                    </Menu>
+                    <Button
+                        text
+                        rounded
+                        class="relative size-10 w-auto rounded-full p-1 focus-within:ring-2 focus-within:ring-primary"
+                        @click="userMenu.toggle($event)"
+                    >
+                        <Avatar
+                            v-if="auth.user.avatar"
+                            :image="auth.user.avatar"
+                            :alt="auth.user.name"
+                            shape="circle"
+                            class="size-8 overflow-hidden rounded-full"
+                        />
+                        <Avatar
+                            v-else
+                            :label="getInitials(auth.user?.name)"
+                            shape="circle"
+                            class="size-8 overflow-hidden rounded-full bg-neutral-200 font-semibold text-black dark:bg-neutral-700 dark:text-white"
+                        />
+                    </Button>
                 </div>
             </div>
         </div>
