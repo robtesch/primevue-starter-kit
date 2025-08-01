@@ -4,11 +4,11 @@ import { Head, Link, useForm, usePage } from '@inertiajs/vue3';
 import DeleteUser from '@/components/DeleteUser.vue';
 import HeadingSmall from '@/components/HeadingSmall.vue';
 import InputError from '@/components/InputError.vue';
-import { Label } from '@/components/ui/label';
 import AppLayout from '@/layouts/AppLayout.vue';
 import SettingsLayout from '@/layouts/settings/Layout.vue';
 import { AppPageProps, type BreadcrumbItem, type User } from '@/types';
 import Button from 'primevue/button';
+import FloatLabel from 'primevue/floatlabel';
 import InputText from 'primevue/inputtext';
 
 interface Props {
@@ -50,22 +50,26 @@ const submit = () => {
 
                 <form @submit.prevent="submit" class="space-y-6">
                     <div class="grid gap-2">
-                        <Label for="name">Name</Label>
-                        <InputText id="name" class="w-full" v-model="form.name" required autocomplete="name" placeholder="Full name" />
+                        <FloatLabel variant="on">
+                            <InputText id="name" class="w-full" v-model="form.name" required autocomplete="name" placeholder="Full name" />
+                            <label for="name">Name</label>
+                        </FloatLabel>
                         <InputError class="mt-2" :message="form.errors.name" />
                     </div>
 
                     <div class="grid gap-2">
-                        <Label for="email">Email address</Label>
-                        <InputText
-                            id="email"
-                            type="email"
-                            class="w-full"
-                            v-model="form.email"
-                            required
-                            autocomplete="username"
-                            placeholder="Email address"
-                        />
+                        <FloatLabel variant="on">
+                            <InputText
+                                id="email"
+                                type="email"
+                                class="w-full"
+                                v-model="form.email"
+                                required
+                                autocomplete="username"
+                                placeholder="Email address"
+                            />
+                            <label for="email">Email address</label>
+                        </FloatLabel>
                         <InputError class="mt-2" :message="form.errors.email" />
                     </div>
 

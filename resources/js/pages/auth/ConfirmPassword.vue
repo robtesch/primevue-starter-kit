@@ -1,9 +1,9 @@
 <script setup lang="ts">
 import InputError from '@/components/InputError.vue';
-import { Label } from '@/components/ui/label';
 import AuthLayout from '@/layouts/AuthLayout.vue';
 import { Head, useForm } from '@inertiajs/vue3';
 import Button from 'primevue/button';
+import FloatLabel from 'primevue/floatlabel';
 import Password from 'primevue/password';
 
 const form = useForm({
@@ -26,16 +26,18 @@ const submit = () => {
         <form @submit.prevent="submit">
             <div class="space-y-6">
                 <div class="grid gap-2">
-                    <Label htmlFor="password">Password</Label>
-                    <Password
-                        id="password"
-                        class="w-full"
-                        v-model="form.password"
-                        required
-                        autocomplete="current-password"
-                        autofocus
-                        :toggleMask="true"
-                    />
+                    <FloatLabel variant="on">
+                        <Password
+                            id="password"
+                            class="w-full"
+                            v-model="form.password"
+                            required
+                            autocomplete="current-password"
+                            autofocus
+                            :toggleMask="true"
+                        />
+                        <label htmlFor="password">Password</label>
+                    </FloatLabel>
 
                     <InputError :message="form.errors.password" />
                 </div>

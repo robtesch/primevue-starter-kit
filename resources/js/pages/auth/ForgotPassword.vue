@@ -1,10 +1,10 @@
 <script setup lang="ts">
 import InputError from '@/components/InputError.vue';
 import TextLink from '@/components/TextLink.vue';
-import { Label } from '@/components/ui/label';
 import AuthLayout from '@/layouts/AuthLayout.vue';
 import { Head, useForm } from '@inertiajs/vue3';
 import Button from 'primevue/button';
+import FloatLabel from 'primevue/floatlabel';
 import InputText from 'primevue/inputtext';
 
 defineProps<{
@@ -31,17 +31,19 @@ const submit = () => {
         <div class="space-y-6">
             <form @submit.prevent="submit">
                 <div class="grid gap-2">
-                    <Label for="email">Email address</Label>
-                    <InputText
-                        id="email"
-                        type="email"
-                        name="email"
-                        autocomplete="off"
-                        v-model="form.email"
-                        autofocus
-                        placeholder="email@example.com"
-                        class="w-full"
-                    />
+                    <FloatLabel variant="on">
+                        <InputText
+                            id="email"
+                            type="email"
+                            name="email"
+                            autocomplete="off"
+                            v-model="form.email"
+                            autofocus
+                            placeholder="email@example.com"
+                            class="w-full"
+                        />
+                        <label for="email">Email address</label>
+                    </FloatLabel>
                     <InputError :message="form.errors.email" />
                 </div>
 

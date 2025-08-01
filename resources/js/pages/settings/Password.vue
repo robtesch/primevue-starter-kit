@@ -6,9 +6,9 @@ import { Head, useForm } from '@inertiajs/vue3';
 import { ref } from 'vue';
 
 import HeadingSmall from '@/components/HeadingSmall.vue';
-import { Label } from '@/components/ui/label';
 import { type BreadcrumbItem } from '@/types';
 import Button from 'primevue/button';
+import FloatLabel from 'primevue/floatlabel';
 import Password from 'primevue/password';
 
 const breadcrumbItems: BreadcrumbItem[] = [
@@ -60,43 +60,49 @@ const updatePassword = () => {
 
                 <form @submit.prevent="updatePassword" class="space-y-6">
                     <div class="grid gap-2">
-                        <Label for="current_password">Current password</Label>
-                        <Password
-                            id="current_password"
-                            ref="currentPasswordInput"
-                            v-model="form.current_password"
-                            class="w-full"
-                            autocomplete="current-password"
-                            placeholder="Current password"
-                            :toggleMask="true"
-                        />
+                        <FloatLabel variant="on">
+                            <Password
+                                id="current_password"
+                                ref="currentPasswordInput"
+                                v-model="form.current_password"
+                                class="w-full"
+                                autocomplete="current-password"
+                                placeholder="Current password"
+                                :toggleMask="true"
+                            />
+                            <label for="current_password">Current password</label>
+                        </FloatLabel>
                         <InputError :message="form.errors.current_password" />
                     </div>
 
                     <div class="grid gap-2">
-                        <Label for="password">New password</Label>
-                        <Password
-                            id="password"
-                            ref="passwordInput"
-                            v-model="form.password"
-                            class="w-full"
-                            autocomplete="new-password"
-                            placeholder="New password"
-                            :toggleMask="true"
-                        />
+                        <FloatLabel variant="on">
+                            <Password
+                                id="password"
+                                ref="passwordInput"
+                                v-model="form.password"
+                                class="w-full"
+                                autocomplete="new-password"
+                                placeholder="New password"
+                                :toggleMask="true"
+                            />
+                            <label for="password">New password</label>
+                        </FloatLabel>
                         <InputError :message="form.errors.password" />
                     </div>
 
                     <div class="grid gap-2">
-                        <Label for="password_confirmation">Confirm password</Label>
-                        <Password
-                            id="password_confirmation"
-                            v-model="form.password_confirmation"
-                            class="w-full"
-                            autocomplete="new-password"
-                            placeholder="Confirm password"
-                            :toggleMask="true"
-                        />
+                        <FloatLabel variant="on">
+                            <Password
+                                id="password_confirmation"
+                                v-model="form.password_confirmation"
+                                class="w-full"
+                                autocomplete="new-password"
+                                placeholder="Confirm password"
+                                :toggleMask="true"
+                            />
+                            <label for="password_confirmation">Confirm password</label>
+                        </FloatLabel>
                         <InputError :message="form.errors.password_confirmation" />
                     </div>
 

@@ -1,9 +1,9 @@
 <script setup lang="ts">
 import InputError from '@/components/InputError.vue';
-import { Label } from '@/components/ui/label';
 import AuthLayout from '@/layouts/AuthLayout.vue';
 import { Head, useForm } from '@inertiajs/vue3';
 import Button from 'primevue/button';
+import FloatLabel from 'primevue/floatlabel';
 import Password from 'primevue/password';
 
 interface Props {
@@ -36,37 +36,43 @@ const submit = () => {
         <form @submit.prevent="submit">
             <div class="grid gap-6">
                 <div class="grid gap-2">
-                    <Label for="email">Email</Label>
-                    <InputText id="email" type="email" name="email" autocomplete="email" v-model="form.email" class="w-full" readonly />
+                    <FloatLabel variant="on">
+                        <InputText id="email" type="email" name="email" autocomplete="email" v-model="form.email" class="w-full" readonly />
+                        <label for="email">Email</label>
+                    </FloatLabel>
                     <InputError :message="form.errors.email" class="mt-2" />
                 </div>
 
                 <div class="grid gap-2">
-                    <Label for="password">Password</Label>
-                    <Password
-                        id="password"
-                        name="password"
-                        autocomplete="new-password"
-                        v-model="form.password"
-                        class="w-full"
-                        autofocus
-                        placeholder="Password"
-                        :toggleMask="true"
-                    />
+                    <FloatLabel variant="on">
+                        <Password
+                            id="password"
+                            name="password"
+                            autocomplete="new-password"
+                            v-model="form.password"
+                            class="w-full"
+                            autofocus
+                            placeholder="Password"
+                            :toggleMask="true"
+                        />
+                        <label for="password">Password</label>
+                    </FloatLabel>
                     <InputError :message="form.errors.password" />
                 </div>
 
                 <div class="grid gap-2">
-                    <Label for="password_confirmation"> Confirm Password </Label>
-                    <Password
-                        id="password_confirmation"
-                        name="password_confirmation"
-                        autocomplete="new-password"
-                        v-model="form.password_confirmation"
-                        class="w-full"
-                        placeholder="Confirm password"
-                        :toggleMask="true"
-                    />
+                    <FloatLabel variant="on">
+                        <Password
+                            id="password_confirmation"
+                            name="password_confirmation"
+                            autocomplete="new-password"
+                            v-model="form.password_confirmation"
+                            class="w-full"
+                            placeholder="Confirm password"
+                            :toggleMask="true"
+                        />
+                        <label for="password_confirmation"> Confirm Password </label>
+                    </FloatLabel>
                     <InputError :message="form.errors.password_confirmation" />
                 </div>
 

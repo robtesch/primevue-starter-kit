@@ -5,9 +5,9 @@ import { ref } from 'vue';
 // Components
 import HeadingSmall from '@/components/HeadingSmall.vue';
 import InputError from '@/components/InputError.vue';
-import { Label } from '@/components/ui/label';
 import Button from 'primevue/button';
 import Dialog from 'primevue/dialog';
+import FloatLabel from 'primevue/floatlabel';
 import Password from 'primevue/password';
 
 const passwordInput = ref<HTMLInputElement | null>(null);
@@ -54,16 +54,18 @@ const closeModal = () => {
                         confirm you would like to permanently delete your account.
 
                         <div class="mt-4 grid gap-2">
-                            <Label for="password" class="sr-only">Password</Label>
-                            <Password
-                                id="password"
-                                name="password"
-                                ref="passwordInput"
-                                v-model="form.password"
-                                placeholder="Password"
-                                class="w-full"
-                                :toggleMask="true"
-                            />
+                            <FloatLabel variant="on">
+                                <Password
+                                    id="password"
+                                    name="password"
+                                    ref="passwordInput"
+                                    v-model="form.password"
+                                    placeholder="Password"
+                                    class="w-full"
+                                    :toggleMask="true"
+                                />
+                                <label for="password">Password</label>
+                            </FloatLabel>
                             <InputError :message="form.errors.password" />
                         </div>
                     </form>
