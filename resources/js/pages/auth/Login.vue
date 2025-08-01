@@ -1,12 +1,12 @@
 <script setup lang="ts">
 import InputError from '@/components/InputError.vue';
 import TextLink from '@/components/TextLink.vue';
-import { Input } from '@/components/ui/input';
 import { Label } from '@/components/ui/label';
 import AuthBase from '@/layouts/AuthLayout.vue';
 import { Head, useForm } from '@inertiajs/vue3';
 import Button from 'primevue/button';
 import Checkbox from 'primevue/checkbox';
+import Password from 'primevue/password';
 
 defineProps<{
     status?: string;
@@ -38,7 +38,7 @@ const submit = () => {
             <div class="grid gap-6">
                 <div class="grid gap-2">
                     <Label for="email">Email address</Label>
-                    <Input
+                    <InputText
                         id="email"
                         type="email"
                         required
@@ -47,6 +47,7 @@ const submit = () => {
                         autocomplete="email"
                         v-model="form.email"
                         placeholder="email@example.com"
+                        class="w-full"
                     />
                     <InputError :message="form.errors.email" />
                 </div>
@@ -58,14 +59,15 @@ const submit = () => {
                             Forgot password?
                         </TextLink>
                     </div>
-                    <Input
+                    <Password
                         id="password"
-                        type="password"
                         required
                         :tabindex="2"
                         autocomplete="current-password"
                         v-model="form.password"
                         placeholder="Password"
+                        class="w-full"
+                        :toggleMask="true"
                     />
                     <InputError :message="form.errors.password" />
                 </div>

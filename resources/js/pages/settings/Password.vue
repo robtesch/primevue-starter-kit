@@ -6,10 +6,10 @@ import { Head, useForm } from '@inertiajs/vue3';
 import { ref } from 'vue';
 
 import HeadingSmall from '@/components/HeadingSmall.vue';
-import { Input } from '@/components/ui/input';
 import { Label } from '@/components/ui/label';
 import { type BreadcrumbItem } from '@/types';
 import Button from 'primevue/button';
+import Password from 'primevue/password';
 
 const breadcrumbItems: BreadcrumbItem[] = [
     {
@@ -61,41 +61,41 @@ const updatePassword = () => {
                 <form @submit.prevent="updatePassword" class="space-y-6">
                     <div class="grid gap-2">
                         <Label for="current_password">Current password</Label>
-                        <Input
+                        <Password
                             id="current_password"
                             ref="currentPasswordInput"
                             v-model="form.current_password"
-                            type="password"
-                            class="mt-1 block w-full"
+                            class="w-full"
                             autocomplete="current-password"
                             placeholder="Current password"
+                            :toggleMask="true"
                         />
                         <InputError :message="form.errors.current_password" />
                     </div>
 
                     <div class="grid gap-2">
                         <Label for="password">New password</Label>
-                        <Input
+                        <Password
                             id="password"
                             ref="passwordInput"
                             v-model="form.password"
-                            type="password"
-                            class="mt-1 block w-full"
+                            class="w-full"
                             autocomplete="new-password"
                             placeholder="New password"
+                            :toggleMask="true"
                         />
                         <InputError :message="form.errors.password" />
                     </div>
 
                     <div class="grid gap-2">
                         <Label for="password_confirmation">Confirm password</Label>
-                        <Input
+                        <Password
                             id="password_confirmation"
                             v-model="form.password_confirmation"
-                            type="password"
-                            class="mt-1 block w-full"
+                            class="w-full"
                             autocomplete="new-password"
                             placeholder="Confirm password"
+                            :toggleMask="true"
                         />
                         <InputError :message="form.errors.password_confirmation" />
                     </div>

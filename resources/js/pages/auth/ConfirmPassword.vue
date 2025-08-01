@@ -1,10 +1,10 @@
 <script setup lang="ts">
 import InputError from '@/components/InputError.vue';
-import { Input } from '@/components/ui/input';
 import { Label } from '@/components/ui/label';
 import AuthLayout from '@/layouts/AuthLayout.vue';
 import { Head, useForm } from '@inertiajs/vue3';
 import Button from 'primevue/button';
+import Password from 'primevue/password';
 
 const form = useForm({
     password: '',
@@ -27,14 +27,14 @@ const submit = () => {
             <div class="space-y-6">
                 <div class="grid gap-2">
                     <Label htmlFor="password">Password</Label>
-                    <Input
+                    <Password
                         id="password"
-                        type="password"
-                        class="mt-1 block w-full"
+                        class="w-full"
                         v-model="form.password"
                         required
                         autocomplete="current-password"
                         autofocus
+                        :toggleMask="true"
                     />
 
                     <InputError :message="form.errors.password" />
