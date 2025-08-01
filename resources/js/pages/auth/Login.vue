@@ -1,12 +1,12 @@
 <script setup lang="ts">
 import InputError from '@/components/InputError.vue';
 import TextLink from '@/components/TextLink.vue';
-import { Checkbox } from '@/components/ui/checkbox';
 import { Input } from '@/components/ui/input';
 import { Label } from '@/components/ui/label';
 import AuthBase from '@/layouts/AuthLayout.vue';
 import { Head, useForm } from '@inertiajs/vue3';
 import Button from 'primevue/button';
+import Checkbox from 'primevue/checkbox';
 
 defineProps<{
     status?: string;
@@ -72,7 +72,7 @@ const submit = () => {
 
                 <div class="flex items-center justify-between">
                     <Label for="remember" class="flex items-center space-x-3">
-                        <Checkbox id="remember" v-model="form.remember" :tabindex="3" />
+                        <Checkbox id="remember" v-model="form.remember" :binary="true" :tabindex="3" />
                         <span>Remember me</span>
                     </Label>
                 </div>
