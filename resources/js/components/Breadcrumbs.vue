@@ -1,33 +1,23 @@
 <script setup lang="ts">
-import { Breadcrumb, BreadcrumbItem, BreadcrumbLink, BreadcrumbList, BreadcrumbPage, BreadcrumbSeparator } from '@/components/ui/breadcrumb';
-import { Link } from '@inertiajs/vue3';
+import Breadcrumb from 'primevue/breadcrumb';
 
 interface BreadcrumbItemType {
     title: string;
     href?: string;
 }
 
-defineProps<{
+const props = defineProps<{
     breadcrumbs: BreadcrumbItemType[];
 }>();
+
+const home = { icon: 'pi pi-home', url: '/' };
+
+const items = props.breadcrumbs.map((item) => ({
+    label: item.title,
+    url: item.href,
+}));
 </script>
 
 <template>
-    <Breadcrumb>
-        <BreadcrumbList>
-            <template v-for="(item, index) in breadcrumbs" :key="index">
-                <BreadcrumbItem>
-                    <template v-if="index === breadcrumbs.length - 1">
-                        <BreadcrumbPage>{{ item.title }}</BreadcrumbPage>
-                    </template>
-                    <template v-else>
-                        <BreadcrumbLink as-child>
-                            <Link :href="item.href ?? '#'">{{ item.title }}</Link>
-                        </BreadcrumbLink>
-                    </template>
-                </BreadcrumbItem>
-                <BreadcrumbSeparator v-if="index !== breadcrumbs.length - 1" />
-            </template>
-        </BreadcrumbList>
-    </Breadcrumb>
+    <Breadcrumb :home="home" :model="items" />
 </template>
