@@ -2,17 +2,19 @@
 import AppLogo from '@/components/AppLogo.vue';
 import AppLogoIcon from '@/components/AppLogoIcon.vue';
 import Breadcrumbs from '@/components/Breadcrumbs.vue';
-import { Sheet, SheetContent, SheetHeader, SheetTitle, SheetTrigger } from '@/components/ui/sheet';
 import { Tooltip, TooltipContent, TooltipProvider, TooltipTrigger } from '@/components/ui/tooltip';
 import { getInitials } from '@/composables/useInitials';
 import { AppPageProps } from '@/types';
 import { Link, router, usePage } from '@inertiajs/vue3';
 import Avatar from 'primevue/avatar';
 import Button from 'primevue/button';
+import Drawer from 'primevue/drawer';
 import Menu from 'primevue/menu';
 import Menubar from 'primevue/menubar';
 import type { MenuItem } from 'primevue/menuitem';
 import { computed, ref } from 'vue';
+
+const drawerVisible = ref(false);
 
 const userMenu = ref();
 
@@ -51,6 +53,7 @@ const activeItemStyles = computed(
 const mainNavItems: MenuItem[] = [
     {
         label: 'Dashboard',
+        key: 'dashboard',
         route: '/dashboard',
         icon: 'fa-solid fa-table-cells-large',
     },
@@ -76,28 +79,25 @@ const rightNavItems: MenuItem[] = [
             <div class="mx-auto flex h-16 items-center px-4 md:max-w-7xl">
                 <!-- Mobile Menu -->
                 <div class="lg:hidden">
-                    <Sheet>
-                        <SheetTrigger :as-child="true">
-                            <Button text rounded class="mr-2 h-9 w-9">
-                                <Menu class="h-5 w-5" />
-                            </Button>
-                        </SheetTrigger>
-                        <SheetContent side="left" class="w-[300px] p-6">
-                            <SheetTitle class="sr-only">Navigation Menu</SheetTitle>
-                            <SheetHeader class="flex justify-start text-left">
-                                <AppLogoIcon class="size-6 fill-current text-black dark:text-white" />
-                            </SheetHeader>
+                    <Button text rounded class="mr-2 h-9 w-9" @click="drawerVisible = true">
+                        <i class="fa-solid fa-bars h-5 w-5" />
+                    </Button>
+                    <Drawer v-model:visible="drawerVisible" header="Navigation Menu" class="w-[300px] p-6">
+                        <template #container>
                             <div class="flex h-full flex-1 flex-col justify-between space-y-4 py-6">
+                                <div class="flex justify-start text-left">
+                                    <AppLogoIcon class="size-6 fill-current text-black dark:text-white" />
+                                </div>
                                 <nav class="-mx-3 space-y-1">
                                     <Link
                                         v-for="item in mainNavItems"
-                                        :key="item.title"
-                                        :href="item.href"
+                                        :key="item.key"
+                                        :href="item.route"
                                         class="flex items-center gap-x-3 rounded-lg px-3 py-2 text-sm font-medium hover:bg-accent"
-                                        :class="activeItemStyles(item.href)"
+                                        :class="activeItemStyles(item.route)"
                                     >
-                                        <component v-if="item.icon" :is="item.icon" class="h-5 w-5" />
-                                        {{ item.title }}
+                                        <i v-if="item.icon" :class="item.icon" class="h-5 w-5" />
+                                        {{ item.label }}
                                     </Link>
                                 </nav>
                                 <div class="flex flex-col space-y-4">
@@ -109,13 +109,13 @@ const rightNavItems: MenuItem[] = [
                                         rel="noopener noreferrer"
                                         class="flex items-center space-x-2 text-sm font-medium"
                                     >
-                                        <component v-if="item.icon" :is="item.icon" class="h-5 w-5" />
+                                        <i v-if="item.icon" :class="item.icon" class="h-5 w-5" />
                                         <span>{{ item.title }}</span>
                                     </a>
                                 </div>
                             </div>
-                        </SheetContent>
-                    </Sheet>
+                        </template>
+                    </Drawer>
                 </div>
 
                 <Link :href="route('dashboard')" class="flex items-center gap-x-2">
