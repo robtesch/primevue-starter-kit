@@ -9,7 +9,7 @@ import { Input } from '@/components/ui/input';
 import { Label } from '@/components/ui/label';
 import AppLayout from '@/layouts/AppLayout.vue';
 import SettingsLayout from '@/layouts/settings/Layout.vue';
-import { type BreadcrumbItem, type User } from '@/types';
+import { AppPageProps, type BreadcrumbItem, type User } from '@/types';
 
 interface Props {
     mustVerifyEmail: boolean;
@@ -25,7 +25,7 @@ const breadcrumbItems: BreadcrumbItem[] = [
     },
 ];
 
-const page = usePage();
+const page = usePage<AppPageProps>();
 const user = page.props.auth.user as User;
 
 const form = useForm({

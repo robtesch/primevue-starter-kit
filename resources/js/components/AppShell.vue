@@ -1,5 +1,6 @@
 <script setup lang="ts">
 import { SidebarProvider } from '@/components/ui/sidebar';
+import { AppPageProps } from '@/types';
 import { usePage } from '@inertiajs/vue3';
 
 interface Props {
@@ -8,7 +9,7 @@ interface Props {
 
 defineProps<Props>();
 
-const isOpen = usePage().props.sidebarOpen;
+const isOpen = usePage<AppPageProps>().props.sidebarOpen;
 </script>
 
 <template>
