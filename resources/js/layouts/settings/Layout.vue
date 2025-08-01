@@ -1,11 +1,12 @@
 <script setup lang="ts">
 import Heading from '@/components/Heading.vue';
 import { Separator } from '@/components/ui/separator';
-import { AppPageProps, type NavItem } from '@/types';
+import { AppPageProps } from '@/types';
 import { Link, usePage } from '@inertiajs/vue3';
 import Button from 'primevue/button';
+import type { MenuItem } from 'primevue/menuitem';
 
-const sidebarNavItems: NavItem[] = [
+const sidebarNavItems: MenuItem[] = [
     {
         title: 'Profile',
         href: '/settings/profile',

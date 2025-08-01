@@ -2,7 +2,6 @@
 import type { HTMLAttributes } from 'vue'
 import { cn } from '@/lib/utils'
 import { reactiveOmit } from '@vueuse/core'
-import { X } from 'lucide-vue-next'
 import {
   DialogClose,
   DialogContent,
@@ -55,7 +54,7 @@ const forwarded = useForwardPropsEmits(delegatedProps, emits)
       <DialogClose
         class="ring-offset-background focus:ring-ring data-[state=open]:bg-secondary absolute top-4 right-4 rounded-xs opacity-70 transition-opacity hover:opacity-100 focus:ring-2 focus:ring-offset-2 focus:outline-hidden disabled:pointer-events-none"
       >
-        <X class="size-4" />
+        <i class="fa-solid fa-xmark" />
         <span class="sr-only">Close</span>
       </DialogClose>
     </DialogContent>

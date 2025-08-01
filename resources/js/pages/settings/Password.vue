@@ -6,12 +6,12 @@ import { Head, useForm } from '@inertiajs/vue3';
 import { ref } from 'vue';
 
 import HeadingSmall from '@/components/HeadingSmall.vue';
-import { type BreadcrumbItem } from '@/types';
 import Button from 'primevue/button';
 import FloatLabel from 'primevue/floatlabel';
+import type { MenuItem } from 'primevue/menuitem';
 import Password from 'primevue/password';
 
-const breadcrumbItems: BreadcrumbItem[] = [
+const breadcrumbItems: MenuItem[] = [
     {
         title: 'Password settings',
         href: '/settings/password',

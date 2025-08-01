@@ -2,16 +2,16 @@
 import AppLogo from '@/components/AppLogo.vue';
 import AppLogoIcon from '@/components/AppLogoIcon.vue';
 import Breadcrumbs from '@/components/Breadcrumbs.vue';
-import { NavigationMenu, NavigationMenuItem, NavigationMenuList, navigationMenuTriggerStyle } from '@/components/ui/navigation-menu';
 import { Sheet, SheetContent, SheetHeader, SheetTitle, SheetTrigger } from '@/components/ui/sheet';
 import { Tooltip, TooltipContent, TooltipProvider, TooltipTrigger } from '@/components/ui/tooltip';
 import { getInitials } from '@/composables/useInitials';
-import { AppPageProps, BreadcrumbItem, NavItem } from '@/types';
+import { AppPageProps } from '@/types';
 import { Link, router, usePage } from '@inertiajs/vue3';
-import { BookOpen, Folder, LayoutGrid, Search } from 'lucide-vue-next';
 import Avatar from 'primevue/avatar';
 import Button from 'primevue/button';
 import Menu from 'primevue/menu';
+import Menubar from 'primevue/menubar';
+import type { MenuItem } from 'primevue/menuitem';
 import { computed, ref } from 'vue';
 
 const userMenu = ref();
@@ -19,12 +19,12 @@ const userMenu = ref();
 const userMenuItems = ref([
     {
         label: 'Settings',
-        icon: 'pi pi-cog',
+        icon: 'fa-solid fa-gear',
         route: route('profile.edit'),
     },
     {
         label: 'Log out',
-        icon: 'pi pi-sign-out',
+        icon: 'fa-solid fa-arrow-right-from-bracket',
         command: () => {
             router.post(route('logout'));
         },
@@ -32,7 +32,7 @@ const userMenuItems = ref([
 ]);
 
 interface Props {
-    breadcrumbs?: BreadcrumbItem[];
+    breadcrumbs?: MenuItem[];
 }
 
 const props = withDefaults(defineProps<Props>(), {
@@ -48,24 +48,24 @@ const activeItemStyles = computed(
     () => (url: string) => (isCurrentRoute.value(url) ? 'text-neutral-900 dark:bg-neutral-800 dark:text-neutral-100' : ''),
 );
 
-const mainNavItems: NavItem[] = [
+const mainNavItems: MenuItem[] = [
     {
-        title: 'Dashboard',
-        href: '/dashboard',
-        icon: LayoutGrid,
+        label: 'Dashboard',
+        route: '/dashboard',
+        icon: 'fa-solid fa-table-cells-large',
     },
 ];
 
-const rightNavItems: NavItem[] = [
+const rightNavItems: MenuItem[] = [
     {
         title: 'Repository',
         href: 'https://github.com/laravel/vue-starter-kit',
-        icon: Folder,
+        icon: 'fa-solid fa-folder',
     },
     {
         title: 'Documentation',
         href: 'https://laravel.com/docs/starter-kits#vue',
-        icon: BookOpen,
+        icon: 'fa-solid fa-book-open',
     },
 ];
 </script>
@@ -124,29 +124,20 @@ const rightNavItems: NavItem[] = [
 
                 <!-- Desktop Menu -->
                 <div class="hidden h-full lg:flex lg:flex-1">
-                    <NavigationMenu class="ml-10 flex h-full items-stretch">
-                        <NavigationMenuList class="flex h-full items-stretch space-x-2">
-                            <NavigationMenuItem v-for="(item, index) in mainNavItems" :key="index" class="relative flex h-full items-center">
-                                <Link
-                                    :class="[navigationMenuTriggerStyle(), activeItemStyles(item.href), 'h-9 cursor-pointer px-3']"
-                                    :href="item.href"
-                                >
-                                    <component v-if="item.icon" :is="item.icon" class="mr-2 h-4 w-4" />
-                                    {{ item.title }}
-                                </Link>
-                                <div
-                                    v-if="isCurrentRoute(item.href)"
-                                    class="absolute bottom-0 left-0 h-0.5 w-full translate-y-px bg-black dark:bg-white"
-                                ></div>
-                            </NavigationMenuItem>
-                        </NavigationMenuList>
-                    </NavigationMenu>
+                    <Menubar :model="mainNavItems" class="ml-10 flex h-full items-stretch">
+                        <template #item="{ item, props }">
+                            <Link v-ripple :href="item.route" v-bind="props.action" class="flex items-center">
+                                <span :class="item.icon" />
+                                <span class="ml-2">{{ item.label }}</span>
+                            </Link>
+                        </template>
+                    </Menubar>
                 </div>
 
                 <div class="ml-auto flex items-center space-x-2">
                     <div class="relative flex items-center space-x-1">
                         <Button text rounded class="group h-9 w-9 cursor-pointer">
-                            <Search class="size-5 opacity-80 group-hover:opacity-100" />
+                            <i class="fa-solid fa-magnifying-glass opacity-80 group-hover:opacity-100" />
                         </Button>
 
                         <div class="hidden space-x-1 lg:flex">

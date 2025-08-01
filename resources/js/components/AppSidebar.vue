@@ -3,29 +3,28 @@ import NavFooter from '@/components/NavFooter.vue';
 import NavMain from '@/components/NavMain.vue';
 import NavUser from '@/components/NavUser.vue';
 import { Sidebar, SidebarContent, SidebarFooter, SidebarHeader, SidebarMenu, SidebarMenuButton, SidebarMenuItem } from '@/components/ui/sidebar';
-import { type NavItem } from '@/types';
 import { Link } from '@inertiajs/vue3';
-import { BookOpen, Folder, LayoutGrid } from 'lucide-vue-next';
+import type { MenuItem } from 'primevue/menuitem';
 import AppLogo from './AppLogo.vue';
 
-const mainNavItems: NavItem[] = [
+const mainNavItems: MenuItem[] = [
     {
         title: 'Dashboard',
         href: '/dashboard',
-        icon: LayoutGrid,
+        icon: 'fa-solid fa-table-cells-large',
     },
 ];
 
-const footerNavItems: NavItem[] = [
+const footerNavItems: MenuItem[] = [
     {
         title: 'Github Repo',
         href: 'https://github.com/laravel/vue-starter-kit',
-        icon: Folder,
+        icon: 'fa-solid fa-folder',
     },
     {
         title: 'Documentation',
         href: 'https://laravel.com/docs/starter-kits#vue',
-        icon: BookOpen,
+        icon: 'fa-solid fa-book-open',
     },
 ];
 </script>

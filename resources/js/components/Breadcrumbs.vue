@@ -1,16 +1,12 @@
 <script setup lang="ts">
 import Breadcrumb from 'primevue/breadcrumb';
-
-interface BreadcrumbItemType {
-    title: string;
-    href?: string;
-}
+import type { MenuItem } from 'primevue/menuitem';
 
 const props = defineProps<{
-    breadcrumbs: BreadcrumbItemType[];
+    breadcrumbs: MenuItem[];
 }>();
 
-const home = { icon: 'pi pi-home', url: '/' };
+const home = { icon: 'fa-solid fa-house', url: '/' };
 
 const items = props.breadcrumbs.map((item) => ({
     label: item.title,

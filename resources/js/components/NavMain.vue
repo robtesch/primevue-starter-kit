@@ -1,10 +1,11 @@
 <script setup lang="ts">
 import { SidebarGroup, SidebarGroupLabel, SidebarMenu, SidebarMenuButton, SidebarMenuItem } from '@/components/ui/sidebar';
-import { AppPageProps, type NavItem } from '@/types';
+import { AppPageProps } from '@/types';
 import { Link, usePage } from '@inertiajs/vue3';
+import type { MenuItem } from 'primevue/menuitem';
 
 defineProps<{
-    items: NavItem[];
+    items: MenuItem[];
 }>();
 
 const page = usePage<AppPageProps>();

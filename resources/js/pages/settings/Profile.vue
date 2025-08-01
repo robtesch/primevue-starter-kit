@@ -6,10 +6,11 @@ import HeadingSmall from '@/components/HeadingSmall.vue';
 import InputError from '@/components/InputError.vue';
 import AppLayout from '@/layouts/AppLayout.vue';
 import SettingsLayout from '@/layouts/settings/Layout.vue';
-import { AppPageProps, type BreadcrumbItem, type User } from '@/types';
+import { AppPageProps, type User } from '@/types';
 import Button from 'primevue/button';
 import FloatLabel from 'primevue/floatlabel';
 import InputText from 'primevue/inputtext';
+import type { MenuItem } from 'primevue/menuitem';
 
 interface Props {
     mustVerifyEmail: boolean;
@@ -18,7 +19,7 @@ interface Props {
 
 defineProps<Props>();
 
-const breadcrumbItems: BreadcrumbItem[] = [
+const breadcrumbItems: MenuItem[] = [
     {
         title: 'Profile settings',
         href: '/settings/profile',

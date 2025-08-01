@@ -1,10 +1,10 @@
 <script setup lang="ts">
 import AppLayout from '@/layouts/AppLayout.vue';
-import { type BreadcrumbItem } from '@/types';
 import { Head } from '@inertiajs/vue3';
+import type { MenuItem } from 'primevue/menuitem';
 import PlaceholderPattern from '../components/PlaceholderPattern.vue';
 
-const breadcrumbs: BreadcrumbItem[] = [
+const breadcrumbs: MenuItem[] = [
     {
         title: 'Dashboard',
         href: '/dashboard',
