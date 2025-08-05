@@ -6,13 +6,13 @@ interface Props {
     breadcrumbs?: MenuItem[];
 }
 
-withDefaults(defineProps<Props>(), {
+const props = withDefaults(defineProps<Props>(), {
     breadcrumbs: () => [],
 });
 </script>
 
 <template>
-    <AppLayout :breadcrumbs="breadcrumbs">
+    <AppLayout :breadcrumbs="props.breadcrumbs">
         <slot />
     </AppLayout>
 </template>

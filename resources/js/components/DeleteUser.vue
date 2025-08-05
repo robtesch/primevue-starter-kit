@@ -10,7 +10,6 @@ import Dialog from 'primevue/dialog';
 import FloatLabel from 'primevue/floatlabel';
 import Password from 'primevue/password';
 
-const passwordInput = ref<HTMLInputElement | null>(null);
 const visible = ref(false);
 
 const form = useForm({
@@ -26,7 +25,6 @@ const deleteUser = (e: Event) => {
             closeModal();
             visible.value = false;
         },
-        onError: () => passwordInput.value?.focus(),
         onFinish: () => form.reset(),
     });
 };
@@ -47,7 +45,13 @@ const closeModal = () => {
             </div>
             <Button severity="danger" @click="visible = true">Delete account</Button>
 
-            <Dialog v-model:visible="visible" modal header="Are you sure you want to delete your account?">
+            <Dialog
+                v-model:visible="visible"
+                modal
+                header="Are you sure you want to delete your account?"
+                class="w-[80vw]"
+                @after-hide="form.resetAndClearErrors()"
+            >
                 <template #default>
                     <form @submit.prevent="deleteUser">
                         Once your account is deleted, all of its resources and data will also be permanently deleted. Please enter your password to
@@ -57,12 +61,13 @@ const closeModal = () => {
                             <FloatLabel variant="on">
                                 <Password
                                     id="password"
-                                    name="password"
-                                    ref="passwordInput"
                                     v-model="form.password"
+                                    name="password"
                                     placeholder="Password"
-                                    class="w-full"
-                                    :toggleMask="true"
+                                    fluid
+                                    :toggle-mask="true"
+                                    :feedback="false"
+                                    :invalid="form.errors.password !== undefined"
                                 />
                                 <label for="password">Password</label>
                             </FloatLabel>

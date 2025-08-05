@@ -3,7 +3,7 @@ import AppLogoIcon from '@/components/AppLogoIcon.vue';
 import { Link } from '@inertiajs/vue3';
 import Card from 'primevue/card';
 
-defineProps<{
+const props = defineProps<{
     title?: string;
     description?: string;
 }>();
@@ -22,12 +22,12 @@ defineProps<{
                 <Card class="rounded-xl">
                     <template #title>
                         <div class="px-10 pt-8 pb-0 text-center">
-                            <h1 class="text-xl">{{ title }}</h1>
+                            <h1 class="text-xl">{{ props.title }}</h1>
                         </div>
                     </template>
                     <template #subtitle>
                         <div class="px-10 text-center">
-                            <p>{{ description }}</p>
+                            <p>{{ props.description }}</p>
                         </div>
                     </template>
                     <template #content>

@@ -5,6 +5,7 @@ import AuthBase from '@/layouts/AuthLayout.vue';
 import { Head, useForm } from '@inertiajs/vue3';
 import Button from 'primevue/button';
 import FloatLabel from 'primevue/floatlabel';
+import InputText from 'primevue/inputtext';
 import Password from 'primevue/password';
 
 const form = useForm({
@@ -25,20 +26,21 @@ const submit = () => {
     <AuthBase title="Create an account" description="Enter your details below to create your account">
         <Head title="Register" />
 
-        <form @submit.prevent="submit" class="flex flex-col gap-6">
+        <form class="flex flex-col gap-6" @submit.prevent="submit">
             <div class="grid gap-6">
                 <div class="grid gap-2">
                     <FloatLabel variant="on">
                         <InputText
                             id="name"
+                            v-model="form.name"
                             type="text"
                             required
                             autofocus
                             :tabindex="1"
                             autocomplete="name"
-                            v-model="form.name"
                             placeholder="Full name"
-                            class="w-full"
+                            fluid
+                            :invalid="form.errors.name !== undefined"
                         />
                         <label for="name">Name</label>
                     </FloatLabel>
@@ -49,13 +51,14 @@ const submit = () => {
                     <FloatLabel variant="on">
                         <InputText
                             id="email"
+                            v-model="form.email"
                             type="email"
                             required
                             :tabindex="2"
                             autocomplete="email"
-                            v-model="form.email"
                             placeholder="email@example.com"
-                            class="w-full"
+                            fluid
+                            :invalid="form.errors.email !== undefined"
                         />
                         <label for="email">Email address</label>
                     </FloatLabel>
@@ -66,13 +69,14 @@ const submit = () => {
                     <FloatLabel variant="on">
                         <Password
                             id="password"
+                            v-model="form.password"
                             required
                             :tabindex="3"
                             autocomplete="new-password"
-                            v-model="form.password"
                             placeholder="Password"
-                            class="w-full"
-                            :toggleMask="true"
+                            fluid
+                            :toggle-mask="true"
+                            :invalid="form.errors.password !== undefined"
                         />
                         <label for="password">Password</label>
                     </FloatLabel>
@@ -83,13 +87,15 @@ const submit = () => {
                     <FloatLabel variant="on">
                         <Password
                             id="password_confirmation"
+                            v-model="form.password_confirmation"
                             required
                             :tabindex="4"
                             autocomplete="new-password"
-                            v-model="form.password_confirmation"
                             placeholder="Confirm password"
-                            class="w-full"
-                            :toggleMask="true"
+                            fluid
+                            :toggle-mask="true"
+                            :feedback="false"
+                            :invalid="form.errors.password_confirmation !== undefined"
                         />
                         <label for="password_confirmation">Confirm password</label>
                     </FloatLabel>
@@ -103,7 +109,7 @@ const submit = () => {
 
             <div class="text-center text-sm text-muted-foreground">
                 Already have an account?
-                <TextLink :href="route('login')" class="underline underline-offset-4" :tabindex="6">Log in</TextLink>
+                <TextLink :href="route('login')" class="underline underline-offset-4">Log in</TextLink>
             </div>
         </form>
     </AuthBase>

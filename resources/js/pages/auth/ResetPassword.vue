@@ -37,7 +37,16 @@ const submit = () => {
             <div class="grid gap-6">
                 <div class="grid gap-2">
                     <FloatLabel variant="on">
-                        <InputText id="email" type="email" name="email" autocomplete="email" v-model="form.email" class="w-full" readonly />
+                        <InputText
+                            id="email"
+                            v-model="form.email"
+                            type="email"
+                            name="email"
+                            autocomplete="email"
+                            fluid
+                            readonly
+                            :invalid="form.errors.email !== undefined"
+                        />
                         <label for="email">Email</label>
                     </FloatLabel>
                     <InputError :message="form.errors.email" class="mt-2" />
@@ -47,13 +56,14 @@ const submit = () => {
                     <FloatLabel variant="on">
                         <Password
                             id="password"
+                            v-model="form.password"
                             name="password"
                             autocomplete="new-password"
-                            v-model="form.password"
-                            class="w-full"
+                            fluid
                             autofocus
                             placeholder="Password"
-                            :toggleMask="true"
+                            :toggle-mask="true"
+                            :invalid="form.errors.password !== undefined"
                         />
                         <label for="password">Password</label>
                     </FloatLabel>
@@ -64,12 +74,14 @@ const submit = () => {
                     <FloatLabel variant="on">
                         <Password
                             id="password_confirmation"
+                            v-model="form.password_confirmation"
                             name="password_confirmation"
                             autocomplete="new-password"
-                            v-model="form.password_confirmation"
-                            class="w-full"
+                            fluid
                             placeholder="Confirm password"
-                            :toggleMask="true"
+                            :toggle-mask="true"
+                            :feedback="false"
+                            :invalid="form.errors.password_confirmation !== undefined"
                         />
                         <label for="password_confirmation"> Confirm Password </label>
                     </FloatLabel>

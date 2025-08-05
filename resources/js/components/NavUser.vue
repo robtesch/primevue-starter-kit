@@ -2,25 +2,20 @@
 import UserInfo from '@/components/UserInfo.vue';
 import { AppPageProps, User } from '@/types';
 import { router, usePage } from '@inertiajs/vue3';
+import Button from 'primevue/button';
 import Menu from 'primevue/menu';
 import type { MenuItem } from 'primevue/menuitem';
-import { computed, ref } from 'vue';
+import { computed, useTemplateRef } from 'vue';
+
+const props = defineProps<{ state: 'expanded' | 'collapsed' }>();
 
 const page = usePage<AppPageProps>();
 const user = page.props.auth.user as User;
 
-const userMenu = ref();
-
-const toggleUserMenu = (event: Event) => {
-    userMenu.value.toggle(event);
-};
+const userMenu = useTemplateRef('userMenu');
 
 const userMenuItems = computed((): MenuItem[] => {
     return [
-        {
-            label: user.name,
-            class: 'font-semibold text-sm px-3 py-2',
-        },
         {
             separator: true,
         },
@@ -43,19 +38,18 @@ const userMenuItems = computed((): MenuItem[] => {
 </script>
 
 <template>
-    <Menu :model="userMenuItems" popup ref="userMenu">
-        <template #item="{ item, props }">
-            <a v-ripple :href="item.route" v-bind="props.action" class="flex items-center">
-                <span :class="item.icon" />
-                <span class="ml-2">{{ item.label }}</span>
-            </a>
+    <Menu ref="userMenu" :model="userMenuItems" popup>
+        <template #start>
+            <div class="flex items-center gap-2 p-2 text-left text-sm">
+                <UserInfo :user="user" :show-email="true" />
+            </div>
         </template>
     </Menu>
 
-    <div class="flex items-center justify-between p-4">
-        <Button text rounded class="w-full justify-start" @click="toggleUserMenu">
-            <UserInfo :user="user" />
-            <i class="fa-solid fa-chevron-up ml-auto" />
+    <div class="flex items-center justify-between">
+        <Button text fluid @click="userMenu?.toggle($event)">
+            <UserInfo :user="user" :show-name="props.state === 'expanded'" />
+            <i v-if="props.state === 'expanded'" class="fa-solid fa-chevron-right ml-auto" />
         </Button>
     </div>
 </template>

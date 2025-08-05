@@ -1,4 +1,5 @@
 <script setup lang="ts">
+import { router } from '@inertiajs/vue3';
 import Breadcrumb from 'primevue/breadcrumb';
 import type { MenuItem } from 'primevue/menuitem';
 
@@ -6,14 +7,14 @@ const props = defineProps<{
     breadcrumbs: MenuItem[];
 }>();
 
-const home = { icon: 'fa-solid fa-house', url: '/' };
-
-const items = props.breadcrumbs.map((item) => ({
-    label: item.title,
-    url: item.href,
-}));
+const home: MenuItem = {
+    icon: 'fa-solid fa-house',
+    command: () => {
+        router.visit(route('dashboard'));
+    },
+};
 </script>
 
 <template>
-    <Breadcrumb :home="home" :model="items" />
+    <Breadcrumb :home="home" :model="props.breadcrumbs" />
 </template>

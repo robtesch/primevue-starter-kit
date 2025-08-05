@@ -1,9 +1,10 @@
 import '../css/app.css';
 
-import { createInertiaApp } from '@inertiajs/vue3';
-import Aura from '@primeuix/themes/aura';
+import { Noir } from '@/theme';
+import { createInertiaApp, Head, Link } from '@inertiajs/vue3';
 import { resolvePageComponent } from 'laravel-vite-plugin/inertia-helpers';
 import PrimeVue from 'primevue/config';
+import Tooltip from 'primevue/tooltip';
 import type { DefineComponent } from 'vue';
 import { createApp, h } from 'vue';
 import { ZiggyVue } from 'ziggy-js';
@@ -20,9 +21,19 @@ createInertiaApp({
             .use(ZiggyVue)
             .use(PrimeVue, {
                 theme: {
-                    preset: Aura,
+                    preset: Noir,
+                    options: {
+                        darkModeSelector: '.dark',
+                        cssLayer: {
+                            name: 'primevue',
+                            order: 'base, primevue',
+                        },
+                    },
                 },
             })
+            .directive('tooltip', Tooltip)
+            .component('ILink', Link)
+            .component('IHead', Head)
             .mount(el);
     },
     progress: {

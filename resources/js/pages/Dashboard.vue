@@ -1,13 +1,15 @@
 <script setup lang="ts">
 import AppLayout from '@/layouts/AppLayout.vue';
-import { Head } from '@inertiajs/vue3';
+import { Head, router } from '@inertiajs/vue3';
 import type { MenuItem } from 'primevue/menuitem';
 import PlaceholderPattern from '../components/PlaceholderPattern.vue';
 
 const breadcrumbs: MenuItem[] = [
     {
-        title: 'Dashboard',
-        href: '/dashboard',
+        label: 'Dashboard',
+        command: () => {
+            router.visit(route('dashboard'));
+        },
     },
 ];
 </script>

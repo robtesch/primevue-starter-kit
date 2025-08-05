@@ -29,21 +29,23 @@ const submit = () => {
                     <FloatLabel variant="on">
                         <Password
                             id="password"
-                            class="w-full"
                             v-model="form.password"
+                            fluid
                             required
                             autocomplete="current-password"
                             autofocus
-                            :toggleMask="true"
+                            :toggle-mask="true"
+                            :feedback="false"
+                            :invalid="form.errors.password !== undefined"
                         />
-                        <label htmlFor="password">Password</label>
+                        <label for="password">Password</label>
                     </FloatLabel>
 
                     <InputError :message="form.errors.password" />
                 </div>
 
                 <div class="flex items-center">
-                    <Button class="w-full" :disabled="form.processing" :loading="form.processing"> Confirm Password </Button>
+                    <Button fluid :disabled="form.processing" :loading="form.processing" type="submit"> Confirm Password </Button>
                 </div>
             </div>
         </form>

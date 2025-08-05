@@ -2,7 +2,6 @@
 import AppLogo from '@/components/AppLogo.vue';
 import AppLogoIcon from '@/components/AppLogoIcon.vue';
 import Breadcrumbs from '@/components/Breadcrumbs.vue';
-import { Tooltip, TooltipContent, TooltipProvider, TooltipTrigger } from '@/components/ui/tooltip';
 import { getInitials } from '@/composables/useInitials';
 import { AppPageProps } from '@/types';
 import { Link, router, usePage } from '@inertiajs/vue3';
@@ -12,17 +11,19 @@ import Drawer from 'primevue/drawer';
 import Menu from 'primevue/menu';
 import Menubar from 'primevue/menubar';
 import type { MenuItem } from 'primevue/menuitem';
-import { computed, ref } from 'vue';
+import { computed, ref, useTemplateRef } from 'vue';
 
 const drawerVisible = ref(false);
 
-const userMenu = ref();
+const userMenu = useTemplateRef('userMenu');
 
 const userMenuItems = ref([
     {
         label: 'Settings',
         icon: 'fa-solid fa-gear',
-        route: route('profile.edit'),
+        command: () => {
+            router.visit(route('profile.edit'));
+        },
     },
     {
         label: 'Log out',
@@ -54,20 +55,22 @@ const mainNavItems: MenuItem[] = [
     {
         label: 'Dashboard',
         key: 'dashboard',
-        route: '/dashboard',
         icon: 'fa-solid fa-table-cells-large',
+        command: () => {
+            router.visit(route('dashboard'));
+        },
     },
 ];
 
 const rightNavItems: MenuItem[] = [
     {
-        title: 'Repository',
-        href: 'https://github.com/laravel/vue-starter-kit',
+        label: 'Repository',
+        url: 'https://github.com/robtesch/primevue-starter-kit',
         icon: 'fa-solid fa-folder',
     },
     {
-        title: 'Documentation',
-        href: 'https://laravel.com/docs/starter-kits#vue',
+        label: 'Documentation',
+        url: 'https://laravel.com/docs/starter-kits#vue',
         icon: 'fa-solid fa-book-open',
     },
 ];
@@ -125,10 +128,10 @@ const rightNavItems: MenuItem[] = [
                 <!-- Desktop Menu -->
                 <div class="hidden h-full lg:flex lg:flex-1">
                     <Menubar :model="mainNavItems" class="ml-10 flex h-full items-stretch">
-                        <template #item="{ item, props }">
-                            <Link v-ripple :href="item.route" v-bind="props.action" class="flex items-center">
-                                <span :class="item.icon" />
-                                <span class="ml-2">{{ item.label }}</span>
+                        <template #item="itemProps">
+                            <Link :href="itemProps.item.route" v-bind="itemProps.props.action" class="flex items-center">
+                                <span :class="itemProps.item.icon" />
+                                <span class="ml-2">{{ itemProps.item.label }}</span>
                             </Link>
                         </template>
                     </Menubar>
@@ -139,33 +142,13 @@ const rightNavItems: MenuItem[] = [
                         <Button text rounded class="group h-9 w-9 cursor-pointer">
                             <i class="fa-solid fa-magnifying-glass opacity-80 group-hover:opacity-100" />
                         </Button>
-
-                        <div class="hidden space-x-1 lg:flex">
-                            <template v-for="item in rightNavItems" :key="item.title">
-                                <TooltipProvider :delay-duration="0">
-                                    <Tooltip>
-                                        <TooltipTrigger>
-                                            <Button text rounded as-child class="group h-9 w-9 cursor-pointer">
-                                                <a :href="item.href" target="_blank" rel="noopener noreferrer">
-                                                    <span class="sr-only">{{ item.title }}</span>
-                                                    <component :is="item.icon" class="size-5 opacity-80 group-hover:opacity-100" />
-                                                </a>
-                                            </Button>
-                                        </TooltipTrigger>
-                                        <TooltipContent>
-                                            <p>{{ item.title }}</p>
-                                        </TooltipContent>
-                                    </Tooltip>
-                                </TooltipProvider>
-                            </template>
-                        </div>
                     </div>
 
-                    <Menu :model="userMenuItems" popup ref="userMenu">
-                        <template #item="{ item, props }">
-                            <a v-ripple :href="item.route" v-bind="props.action" class="flex items-center">
-                                <span :class="item.icon" />
-                                <span class="ml-2">{{ item.label }}</span>
+                    <Menu ref="userMenu" :model="userMenuItems" popup>
+                        <template #item="itemProps">
+                            <a :href="itemProps.item.route" v-bind="itemProps.props.action" class="flex items-center">
+                                <span :class="itemProps.item.icon" />
+                                <span class="ml-2">{{ itemProps.item.label }}</span>
                             </a>
                         </template>
                     </Menu>
@@ -173,15 +156,9 @@ const rightNavItems: MenuItem[] = [
                         text
                         rounded
                         class="relative size-10 w-auto rounded-full p-1 focus-within:ring-2 focus-within:ring-primary"
-                        @click="userMenu.toggle($event)"
+                        @click="userMenu?.toggle($event)"
                     >
-                        <Avatar
-                            v-if="auth.user.avatar"
-                            :image="auth.user.avatar"
-                            :alt="auth.user.name"
-                            shape="circle"
-                            class="size-8 overflow-hidden rounded-full"
-                        />
+                        <Avatar v-if="auth.user.avatar" :image="auth.user.avatar" shape="circle" class="size-8 overflow-hidden rounded-full" />
                         <Avatar
                             v-else
                             :label="getInitials(auth.user?.name)"
@@ -195,7 +172,7 @@ const rightNavItems: MenuItem[] = [
 
         <div v-if="props.breadcrumbs.length > 1" class="flex w-full border-b border-sidebar-border/70">
             <div class="mx-auto flex h-12 w-full items-center justify-start px-4 text-neutral-500 md:max-w-7xl">
-                <Breadcrumbs :breadcrumbs="breadcrumbs" />
+                <Breadcrumbs :breadcrumbs="props.breadcrumbs" class="bg-transparent" />
             </div>
         </div>
     </div>

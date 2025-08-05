@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import { Head, Link, useForm, usePage } from '@inertiajs/vue3';
+import { Head, Link, router, useForm, usePage } from '@inertiajs/vue3';
 
 import DeleteUser from '@/components/DeleteUser.vue';
 import HeadingSmall from '@/components/HeadingSmall.vue';
@@ -17,12 +17,14 @@ interface Props {
     status?: string;
 }
 
-defineProps<Props>();
+const props = defineProps<Props>();
 
 const breadcrumbItems: MenuItem[] = [
     {
-        title: 'Profile settings',
-        href: '/settings/profile',
+        label: 'Profile settings',
+        command: () => {
+            router.visit(route('profile.edit'));
+        },
     },
 ];
 
@@ -35,6 +37,7 @@ const form = useForm({
 });
 
 const submit = () => {
+    console.log('submit', form);
     form.patch(route('profile.update'), {
         preserveScroll: true,
     });
@@ -49,10 +52,18 @@ const submit = () => {
             <div class="flex flex-col space-y-6">
                 <HeadingSmall title="Profile information" description="Update your name and email address" />
 
-                <form @submit.prevent="submit" class="space-y-6">
+                <form class="space-y-6" @submit.prevent="submit">
                     <div class="grid gap-2">
                         <FloatLabel variant="on">
-                            <InputText id="name" class="w-full" v-model="form.name" required autocomplete="name" placeholder="Full name" />
+                            <InputText
+                                id="name"
+                                v-model="form.name"
+                                fluid
+                                required
+                                autocomplete="name"
+                                placeholder="Full name"
+                                :invalid="form.errors.name !== undefined"
+                            />
                             <label for="name">Name</label>
                         </FloatLabel>
                         <InputError class="mt-2" :message="form.errors.name" />
@@ -62,19 +73,20 @@ const submit = () => {
                         <FloatLabel variant="on">
                             <InputText
                                 id="email"
-                                type="email"
-                                class="w-full"
                                 v-model="form.email"
+                                type="email"
+                                fluid
                                 required
                                 autocomplete="username"
                                 placeholder="Email address"
+                                :invalid="form.errors.email !== undefined"
                             />
                             <label for="email">Email address</label>
                         </FloatLabel>
                         <InputError class="mt-2" :message="form.errors.email" />
                     </div>
 
-                    <div v-if="mustVerifyEmail && !user.email_verified_at">
+                    <div v-if="props.mustVerifyEmail && !user.email_verified_at">
                         <p class="-mt-4 text-sm text-muted-foreground">
                             Your email address is unverified.
                             <Link
@@ -87,13 +99,13 @@ const submit = () => {
                             </Link>
                         </p>
 
-                        <div v-if="status === 'verification-link-sent'" class="mt-2 text-sm font-medium text-green-600">
+                        <div v-if="props.status === 'verification-link-sent'" class="mt-2 text-sm font-medium text-green-600">
                             A new verification link has been sent to your email address.
                         </div>
                     </div>
 
                     <div class="flex items-center gap-4">
-                        <Button :disabled="form.processing" :loading="form.processing">Save</Button>
+                        <Button :disabled="form.processing" :loading="form.processing" type="submit">Save</Button>
 
                         <Transition
                             enter-active-class="transition ease-in-out"

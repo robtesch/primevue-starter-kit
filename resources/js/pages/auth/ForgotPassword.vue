@@ -7,7 +7,7 @@ import Button from 'primevue/button';
 import FloatLabel from 'primevue/floatlabel';
 import InputText from 'primevue/inputtext';
 
-defineProps<{
+const props = defineProps<{
     status?: string;
 }>();
 
@@ -24,8 +24,8 @@ const submit = () => {
     <AuthLayout title="Forgot password" description="Enter your email to receive a password reset link">
         <Head title="Forgot password" />
 
-        <div v-if="status" class="mb-4 text-center text-sm font-medium text-green-600">
-            {{ status }}
+        <div v-if="props.status" class="mb-4 text-center text-sm font-medium text-green-600">
+            {{ props.status }}
         </div>
 
         <div class="space-y-6">
@@ -34,13 +34,14 @@ const submit = () => {
                     <FloatLabel variant="on">
                         <InputText
                             id="email"
+                            v-model="form.email"
                             type="email"
                             name="email"
                             autocomplete="off"
-                            v-model="form.email"
                             autofocus
                             placeholder="email@example.com"
-                            class="w-full"
+                            fluid
+                            :invalid="form.errors.email !== undefined"
                         />
                         <label for="email">Email address</label>
                     </FloatLabel>
@@ -48,7 +49,7 @@ const submit = () => {
                 </div>
 
                 <div class="my-6 flex items-center justify-start">
-                    <Button class="w-full" :disabled="form.processing" :loading="form.processing"> Email password reset link </Button>
+                    <Button fluid :disabled="form.processing" :loading="form.processing" type="submit"> Email password reset link </Button>
                 </div>
             </form>
 

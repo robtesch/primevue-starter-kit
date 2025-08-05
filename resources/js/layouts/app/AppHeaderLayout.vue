@@ -8,14 +8,14 @@ interface Props {
     breadcrumbs?: MenuItem[];
 }
 
-withDefaults(defineProps<Props>(), {
+const props = withDefaults(defineProps<Props>(), {
     breadcrumbs: () => [],
 });
 </script>
 
 <template>
     <AppShell class="flex-col">
-        <AppHeader :breadcrumbs="breadcrumbs" />
+        <AppHeader :breadcrumbs="props.breadcrumbs" />
         <AppContent>
             <slot />
         </AppContent>

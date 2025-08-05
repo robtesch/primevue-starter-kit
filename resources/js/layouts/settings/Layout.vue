@@ -1,29 +1,30 @@
 <script setup lang="ts">
 import Heading from '@/components/Heading.vue';
-import { AppPageProps } from '@/types';
-import { Link, usePage } from '@inertiajs/vue3';
+import { Link } from '@inertiajs/vue3';
 import Button from 'primevue/button';
 import Divider from 'primevue/divider';
 import type { MenuItem } from 'primevue/menuitem';
 
 const sidebarNavItems: MenuItem[] = [
     {
-        title: 'Profile',
-        href: '/settings/profile',
+        label: 'Profile',
+        key: 'profile',
+        href: route('profile.edit'),
+        is_current: route().current('profile.edit'),
     },
     {
-        title: 'Password',
-        href: '/settings/password',
+        label: 'Password',
+        key: 'password',
+        href: route('password.edit'),
+        is_current: route().current('password.edit'),
     },
     {
-        title: 'Appearance',
-        href: '/settings/appearance',
+        label: 'Appearance',
+        key: 'appearance',
+        href: route('appearance'),
+        is_current: route().current('appearance'),
     },
 ];
-
-const page = usePage<AppPageProps>();
-
-const currentPath = page.props.ziggy?.location ? new URL(page.props.ziggy.location).pathname : '';
 </script>
 
 <template>
@@ -33,21 +34,15 @@ const currentPath = page.props.ziggy?.location ? new URL(page.props.ziggy.locati
         <div class="flex flex-col lg:flex-row lg:space-x-12">
             <aside class="w-full max-w-xl lg:w-48">
                 <nav class="flex flex-col space-y-1 space-x-0">
-                    <Button
-                        v-for="item in sidebarNavItems"
-                        :key="item.href"
-                        text
-                        :class="['w-full justify-start', { 'bg-muted': currentPath === item.href }]"
-                        as-child
-                    >
-                        <Link :href="item.href">
-                            {{ item.title }}
+                    <Button v-for="item in sidebarNavItems" :key="item.key" :text="!item.is_current" fluid>
+                        <Link :href="item.href" class="w-full text-left">
+                            {{ item.label }}
                         </Link>
                     </Button>
                 </nav>
             </aside>
 
-            <Divider class="my-6 lg:hidden" />
+            <Divider layout="vertical" />
 
             <div class="flex-1 md:max-w-2xl">
                 <section class="max-w-xl space-y-12">

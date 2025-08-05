@@ -1,4 +1,5 @@
 import { AppPageProps } from '@/types/index';
+import Tooltip from 'primevue/tooltip';
 
 // Extend ImportMeta interface for Vite...
 declare module 'vite/client' {
@@ -22,5 +23,8 @@ declare module 'vue' {
         $inertia: typeof Router;
         $page: Page;
         $headManager: ReturnType<typeof createHeadManager>;
+    }
+    interface GlobalDirectives {
+        vTooltip: typeof Tooltip;
     }
 }
