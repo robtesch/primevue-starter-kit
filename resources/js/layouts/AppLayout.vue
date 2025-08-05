@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import AppLayout from '@/layouts/app/AppSidebarLayout.vue';
+import AppSidebarLayout from '@/layouts/app/AppSidebarLayout.vue';
 import type { MenuItem } from 'primevue/menuitem';
 
 interface Props {
@@ -12,7 +12,7 @@ const props = withDefaults(defineProps<Props>(), {
 </script>
 
 <template>
-    <AppLayout :breadcrumbs="props.breadcrumbs">
+    <AppSidebarLayout :breadcrumbs="props.breadcrumbs">
         <slot />
-    </AppLayout>
+    </AppSidebarLayout>
 </template>

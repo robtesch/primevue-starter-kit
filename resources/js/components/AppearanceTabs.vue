@@ -16,6 +16,7 @@ const tabs = [
         :model-value="appearance"
         :options="tabs"
         option-value="value"
+        option-label="label"
         data-key="value"
         :allow-empty="false"
         @update:model-value="updateAppearance"

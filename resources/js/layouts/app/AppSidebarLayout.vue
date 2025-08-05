@@ -14,8 +14,8 @@ const props = withDefaults(defineProps<Props>(), {
 </script>
 
 <template>
-    <AppShell variant="sidebar">
-        <AppContent variant="sidebar" class="overflow-x-hidden">
+    <AppShell>
+        <AppContent class="overflow-x-hidden">
             <AppSidebarHeader :breadcrumbs="props.breadcrumbs" />
             <slot />
         </AppContent>
