@@ -1,12 +1,16 @@
 <script setup lang="ts">
-import { Head, router } from '@inertiajs/vue3';
-
 import AppearanceTabs from '@/components/AppearanceTabs.vue';
 import HeadingSmall from '@/components/HeadingSmall.vue';
-import type { MenuItem } from 'primevue/menuitem';
+import { Head } from '@inertiajs/vue3';
+</script>
 
+<script lang="ts">
+import { composeLayouts } from '@/composables/composeLayouts';
+import { createLayout } from '@/composables/createLayout';
 import AppLayout from '@/layouts/AppLayout.vue';
-import SettingsLayout from '@/layouts/settings/Layout.vue';
+import SettingsLayout from '@/layouts/settings/SettingsLayout.vue';
+import { router } from '@inertiajs/vue3';
+import type { MenuItem } from 'primevue/menuitem';
 
 const breadcrumbItems: MenuItem[] = [
     {
@@ -16,17 +20,17 @@ const breadcrumbItems: MenuItem[] = [
         },
     },
 ];
+
+export default {
+    layout: composeLayouts(createLayout(AppLayout, { breadcrumbs: breadcrumbItems }), createLayout(SettingsLayout)),
+};
 </script>
 
 <template>
-    <AppLayout :breadcrumbs="breadcrumbItems">
-        <Head title="Appearance settings" />
+    <Head title="Appearance settings" />
 
-        <SettingsLayout>
-            <div class="space-y-6">
-                <HeadingSmall title="Appearance settings" description="Update your account's appearance settings" />
-                <AppearanceTabs />
-            </div>
-        </SettingsLayout>
-    </AppLayout>
+    <div class="space-y-6">
+        <HeadingSmall title="Appearance settings" description="Update your account's appearance settings" />
+        <AppearanceTabs />
+    </div>
 </template>

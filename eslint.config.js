@@ -14,7 +14,7 @@ export default defineConfigWithVueTs(
     eslintConfigPrettier,
     {
         rules: {
-            "vue/block-order": ['error', {'order': ['script:not([setup])', 'script[setup]', 'template', 'style']}],
+            "vue/block-order": ['error', {'order': ['script[setup]','script:not([setup])','template', 'style']}],
             "curly": ["error", "all"],
             "vue/multi-word-component-names": "off",
             "semi": ["error", "always"],

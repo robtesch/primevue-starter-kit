@@ -1,6 +1,5 @@
 <script setup lang="ts">
 import InputError from '@/components/InputError.vue';
-import AuthLayout from '@/layouts/AuthLayout.vue';
 import { Head, useForm } from '@inertiajs/vue3';
 import Button from 'primevue/button';
 import FloatLabel from 'primevue/floatlabel';
@@ -19,35 +18,45 @@ const submit = () => {
 };
 </script>
 
+<script lang="ts">
+import { createLayout } from '@/composables/createLayout';
+import AuthLayout from '@/layouts/AuthLayout.vue';
+
+export default {
+    layout: createLayout(AuthLayout, {
+        title: 'Confirm your password',
+        description: 'This is a secure area of the application. Please confirm your password before continuing.',
+    }),
+};
+</script>
+
 <template>
-    <AuthLayout title="Confirm your password" description="This is a secure area of the application. Please confirm your password before continuing.">
-        <Head title="Confirm password" />
+    <Head title="Confirm password" />
 
-        <form @submit.prevent="submit">
-            <div class="space-y-6">
-                <div class="grid gap-2">
-                    <FloatLabel variant="on">
-                        <Password
-                            id="password"
-                            v-model="form.password"
-                            fluid
-                            required
-                            autocomplete="current-password"
-                            autofocus
-                            :toggle-mask="true"
-                            :feedback="false"
-                            :invalid="form.errors.password !== undefined"
-                        />
-                        <label for="password">Password</label>
-                    </FloatLabel>
+    <form @submit.prevent="submit">
+        <div class="space-y-6">
+            <div class="grid gap-2">
+                <FloatLabel variant="on">
+                    <Password
+                        id="password"
+                        v-model="form.password"
+                        fluid
+                        required
+                        autocomplete="current-password"
+                        autofocus
+                        :toggle-mask="true"
+                        :feedback="false"
+                        :invalid="form.errors.password !== undefined"
+                    />
+                    <label for="password">Password</label>
+                </FloatLabel>
 
-                    <InputError :message="form.errors.password" />
-                </div>
-
-                <div class="flex items-center">
-                    <Button fluid :disabled="form.processing" :loading="form.processing" type="submit"> Confirm Password </Button>
-                </div>
+                <InputError :message="form.errors.password" />
             </div>
-        </form>
-    </AuthLayout>
+
+            <div class="flex items-center">
+                <Button fluid :disabled="form.processing" :loading="form.processing" type="submit"> Confirm Password </Button>
+            </div>
+        </div>
+    </form>
 </template>
