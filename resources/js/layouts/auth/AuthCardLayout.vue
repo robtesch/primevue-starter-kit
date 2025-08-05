@@ -1,9 +1,9 @@
 <script setup lang="ts">
 import AppLogoIcon from '@/components/AppLogoIcon.vue';
-import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
 import { Link } from '@inertiajs/vue3';
+import Card from 'primevue/card';
 
-defineProps<{
+const props = defineProps<{
     title?: string;
     description?: string;
 }>();
@@ -20,15 +20,21 @@ defineProps<{
 
             <div class="flex flex-col gap-6">
                 <Card class="rounded-xl">
-                    <CardHeader class="px-10 pt-8 pb-0 text-center">
-                        <CardTitle class="text-xl">{{ title }}</CardTitle>
-                        <CardDescription>
-                            {{ description }}
-                        </CardDescription>
-                    </CardHeader>
-                    <CardContent class="px-10 py-8">
-                        <slot />
-                    </CardContent>
+                    <template #title>
+                        <div class="px-10 pt-8 pb-0 text-center">
+                            <h1 class="text-xl">{{ props.title }}</h1>
+                        </div>
+                    </template>
+                    <template #subtitle>
+                        <div class="px-10 text-center">
+                            <p>{{ props.description }}</p>
+                        </div>
+                    </template>
+                    <template #content>
+                        <div class="px-10 py-8">
+                            <slot />
+                        </div>
+                    </template>
                 </Card>
             </div>
         </div>

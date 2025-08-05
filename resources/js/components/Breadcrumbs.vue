@@ -1,33 +1,20 @@
 <script setup lang="ts">
-import { Breadcrumb, BreadcrumbItem, BreadcrumbLink, BreadcrumbList, BreadcrumbPage, BreadcrumbSeparator } from '@/components/ui/breadcrumb';
-import { Link } from '@inertiajs/vue3';
+import { router } from '@inertiajs/vue3';
+import Breadcrumb from 'primevue/breadcrumb';
+import type { MenuItem } from 'primevue/menuitem';
 
-interface BreadcrumbItemType {
-    title: string;
-    href?: string;
-}
-
-defineProps<{
-    breadcrumbs: BreadcrumbItemType[];
+const props = defineProps<{
+    breadcrumbs: MenuItem[];
 }>();
+
+const home: MenuItem = {
+    icon: 'fa-solid fa-house',
+    command: () => {
+        router.visit(route('dashboard'));
+    },
+};
 </script>
 
 <template>
-    <Breadcrumb>
-        <BreadcrumbList>
-            <template v-for="(item, index) in breadcrumbs" :key="index">
-                <BreadcrumbItem>
-                    <template v-if="index === breadcrumbs.length - 1">
-                        <BreadcrumbPage>{{ item.title }}</BreadcrumbPage>
-                    </template>
-                    <template v-else>
-                        <BreadcrumbLink as-child>
-                            <Link :href="item.href ?? '#'">{{ item.title }}</Link>
-                        </BreadcrumbLink>
-                    </template>
-                </BreadcrumbItem>
-                <BreadcrumbSeparator v-if="index !== breadcrumbs.length - 1" />
-            </template>
-        </BreadcrumbList>
-    </Breadcrumb>
+    <Breadcrumb :home="home" :model="props.breadcrumbs" />
 </template>

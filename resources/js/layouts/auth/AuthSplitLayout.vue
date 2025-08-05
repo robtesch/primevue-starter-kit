@@ -1,12 +1,13 @@
 <script setup lang="ts">
 import AppLogoIcon from '@/components/AppLogoIcon.vue';
+import { AppPageProps } from '@/types';
 import { Link, usePage } from '@inertiajs/vue3';
 
-const page = usePage();
+const page = usePage<AppPageProps>();
 const name = page.props.name;
 const quote = page.props.quote;
 
-defineProps<{
+const props = defineProps<{
     title?: string;
     description?: string;
 }>();
@@ -30,8 +31,8 @@ defineProps<{
         <div class="lg:p-8">
             <div class="mx-auto flex w-full flex-col justify-center space-y-6 sm:w-[350px]">
                 <div class="flex flex-col space-y-2 text-center">
-                    <h1 class="text-xl font-medium tracking-tight" v-if="title">{{ title }}</h1>
-                    <p class="text-sm text-muted-foreground" v-if="description">{{ description }}</p>
+                    <h1 v-if="props.title" class="text-xl font-medium tracking-tight">{{ props.title }}</h1>
+                    <p v-if="props.description" class="text-sm text-muted-foreground">{{ props.description }}</p>
                 </div>
                 <slot />
             </div>

@@ -1,27 +1,31 @@
 <script setup lang="ts">
-import { SidebarGroup, SidebarGroupLabel, SidebarMenu, SidebarMenuButton, SidebarMenuItem } from '@/components/ui/sidebar';
-import { type NavItem } from '@/types';
-import { Link, usePage } from '@inertiajs/vue3';
+import Menu from 'primevue/menu';
+import type { MenuItem } from 'primevue/menuitem';
 
-defineProps<{
-    items: NavItem[];
+const props = defineProps<{
+    items: MenuItem[];
+    state: 'expanded' | 'collapsed';
 }>();
-
-const page = usePage();
 </script>
 
 <template>
-    <SidebarGroup class="px-2 py-0">
-        <SidebarGroupLabel>Platform</SidebarGroupLabel>
-        <SidebarMenu>
-            <SidebarMenuItem v-for="item in items" :key="item.title">
-                <SidebarMenuButton as-child :is-active="item.href === page.url" :tooltip="item.title">
-                    <Link :href="item.href">
-                        <component :is="item.icon" />
-                        <span>{{ item.title }}</span>
-                    </Link>
-                </SidebarMenuButton>
-            </SidebarMenuItem>
-        </SidebarMenu>
-    </SidebarGroup>
+    <Menu
+        :model="props.items"
+        class="border-none bg-transparent"
+        :class="{ 'w-(--sidebar-width-icon) min-w-(--sidebar-width-icon)': props.state === 'collapsed' }"
+    >
+        <template #submenuheader="{ item }">
+            <span
+                v-show="props.state === 'expanded'"
+                class="flex h-8 shrink-0 items-center rounded-md px-2 text-xs font-medium text-sidebar-foreground/70 ring-sidebar-ring outline-hidden transition-[margin,opacity] duration-200 ease-linear focus-visible:ring-2 [&>svg]:size-4 [&>svg]:shrink-0"
+                >{{ item.label }}</span
+            >
+        </template>
+        <template #item="{ item }">
+            <a v-tooltip="props.state === 'collapsed' ? item.label : undefined" :href="item.url" class="p-menu-item-link">
+                <span v-if="item.icon" class="p-menu-item-icon" :class="item.icon" />
+                <span v-if="item.label && props.state === 'expanded'" class="p-menu-item-label text-sm">{{ item.label }}</span>
+            </a>
+        </template>
+    </Menu>
 </template>

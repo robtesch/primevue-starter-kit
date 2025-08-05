@@ -1,36 +1,55 @@
 <script setup lang="ts">
 import UserInfo from '@/components/UserInfo.vue';
-import { DropdownMenu, DropdownMenuContent, DropdownMenuTrigger } from '@/components/ui/dropdown-menu';
-import { SidebarMenu, SidebarMenuButton, SidebarMenuItem, useSidebar } from '@/components/ui/sidebar';
-import { type User } from '@/types';
-import { usePage } from '@inertiajs/vue3';
-import { ChevronsUpDown } from 'lucide-vue-next';
-import UserMenuContent from './UserMenuContent.vue';
+import { AppPageProps, User } from '@/types';
+import { router, usePage } from '@inertiajs/vue3';
+import Button from 'primevue/button';
+import Menu from 'primevue/menu';
+import type { MenuItem } from 'primevue/menuitem';
+import { computed, useTemplateRef } from 'vue';
 
-const page = usePage();
+const props = defineProps<{ state: 'expanded' | 'collapsed' }>();
+
+const page = usePage<AppPageProps>();
 const user = page.props.auth.user as User;
-const { isMobile, state } = useSidebar();
+
+const userMenu = useTemplateRef('userMenu');
+
+const userMenuItems = computed((): MenuItem[] => {
+    return [
+        {
+            separator: true,
+        },
+        {
+            label: 'Settings',
+            icon: 'fa-solid fa-gear',
+            command: () => {
+                router.visit(route('profile.edit'));
+            },
+        },
+        {
+            label: 'Log out',
+            icon: 'fa-solid fa-arrow-right-from-bracket',
+            command: () => {
+                router.post(route('logout'));
+            },
+        },
+    ];
+});
 </script>
 
 <template>
-    <SidebarMenu>
-        <SidebarMenuItem>
-            <DropdownMenu>
-                <DropdownMenuTrigger as-child>
-                    <SidebarMenuButton size="lg" class="data-[state=open]:bg-sidebar-accent data-[state=open]:text-sidebar-accent-foreground">
-                        <UserInfo :user="user" />
-                        <ChevronsUpDown class="ml-auto size-4" />
-                    </SidebarMenuButton>
-                </DropdownMenuTrigger>
-                <DropdownMenuContent
-                    class="w-(--reka-dropdown-menu-trigger-width) min-w-56 rounded-lg"
-                    :side="isMobile ? 'bottom' : state === 'collapsed' ? 'left' : 'bottom'"
-                    align="end"
-                    :side-offset="4"
-                >
-                    <UserMenuContent :user="user" />
-                </DropdownMenuContent>
-            </DropdownMenu>
-        </SidebarMenuItem>
-    </SidebarMenu>
+    <Menu ref="userMenu" :model="userMenuItems" popup>
+        <template #start>
+            <div class="flex items-center gap-2 p-2 text-left text-sm">
+                <UserInfo :user="user" :show-email="true" />
+            </div>
+        </template>
+    </Menu>
+
+    <div class="flex items-center justify-between">
+        <Button text fluid @click="userMenu?.toggle($event)">
+            <UserInfo :user="user" :show-name="props.state === 'expanded'" />
+            <i v-if="props.state === 'expanded'" class="fa-solid fa-chevron-right ml-auto" />
+        </Button>
+    </div>
 </template>

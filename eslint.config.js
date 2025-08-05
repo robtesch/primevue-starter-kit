@@ -1,19 +1,23 @@
-import prettier from 'eslint-config-prettier';
-import vue from 'eslint-plugin-vue';
-
-import { defineConfigWithVueTs, vueTsConfigs } from '@vue/eslint-config-typescript';
+// Import necessary modules
+import {defineConfigWithVueTs, vueTsConfigs} from "@vue/eslint-config-typescript";
+import eslintConfigPrettier from "eslint-config-prettier";
+import oxlint from "eslint-plugin-oxlint";
+import pluginVue from "eslint-plugin-vue";
 
 export default defineConfigWithVueTs(
-    vue.configs['flat/essential'],
-    vueTsConfigs.recommended,
     {
-        ignores: ['vendor', 'node_modules', 'public', 'bootstrap/ssr', 'tailwind.config.js', 'resources/js/components/ui/*'],
+        files: ["resources/**/*.{ts,js,vue,d.ts}"],
     },
+    pluginVue.configs["flat/recommended"],
+    vueTsConfigs.recommended,
+    oxlint.configs["flat/recommended"],
+    eslintConfigPrettier,
     {
         rules: {
-            'vue/multi-word-component-names': 'off',
-            '@typescript-eslint/no-explicit-any': 'off',
+            "vue/block-order": ['error', {'order': ['script[setup]','script:not([setup])','template', 'style']}],
+            "curly": ["error", "all"],
+            "vue/multi-word-component-names": "off",
+            "semi": ["error", "always"],
         },
     },
-    prettier,
 );
