@@ -11,7 +11,7 @@ const props = defineProps<{
 }>();
 
 const form = useForm({
-    email: '',
+    email: '' as string | undefined,
 });
 
 const submit = () => {

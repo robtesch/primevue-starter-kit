@@ -19,8 +19,8 @@ const page = usePage<AppPageProps>();
 const user = page.props.auth.user as User;
 
 const form = useForm({
-    name: user.name,
-    email: user.email,
+    name: user.name as string | undefined,
+    email: user.email as string | undefined,
 });
 
 const submit = () => {

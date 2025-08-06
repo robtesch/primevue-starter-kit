@@ -7,7 +7,7 @@ import Password from 'primevue/password';
 
 interface Props {
     token: string;
-    email: string;
+    email: string | undefined;
 }
 
 const props = defineProps<Props>();
