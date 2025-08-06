@@ -8,8 +8,8 @@ import InputText from 'primevue/inputtext';
 import Password from 'primevue/password';
 
 const form = useForm({
-    name: '',
-    email: '',
+    name: '' as string | undefined,
+    email: '' as string | undefined,
     password: '',
     password_confirmation: '',
 });
