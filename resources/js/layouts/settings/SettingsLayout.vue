@@ -1,6 +1,7 @@
 <script setup lang="ts">
 import Heading from '@/components/Heading.vue';
 import { Link } from '@inertiajs/vue3';
+import { useMediaQuery } from '@vueuse/core';
 import Button from 'primevue/button';
 import Divider from 'primevue/divider';
 import type { MenuItem } from 'primevue/menuitem';
@@ -22,6 +23,8 @@ const sidebarNavItems: MenuItem[] = [
         href: route('appearance'),
     },
 ];
+
+const isMobile = useMediaQuery('(max-width: 768px)');
 </script>
 
 <template>
@@ -39,7 +42,7 @@ const sidebarNavItems: MenuItem[] = [
                 </nav>
             </aside>
 
-            <Divider layout="vertical" />
+            <Divider :layout="isMobile ? 'horizontal' : 'vertical'" />
 
             <div class="flex-1 md:max-w-2xl">
                 <section class="max-w-xl space-y-12">
