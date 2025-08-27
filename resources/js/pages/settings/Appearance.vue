@@ -1,15 +1,10 @@
 <script setup lang="ts">
 import AppearanceTabs from '@/components/AppearanceTabs.vue';
+import Breadcrumbs from '@/components/Breadcrumbs.vue';
 import HeadingSmall from '@/components/HeadingSmall.vue';
-import { Head } from '@inertiajs/vue3';
-</script>
-
-<script lang="ts">
-import { composeLayouts } from '@/composables/composeLayouts';
-import { createLayout } from '@/composables/createLayout';
 import AppLayout from '@/layouts/AppLayout.vue';
 import SettingsLayout from '@/layouts/settings/SettingsLayout.vue';
-import { router } from '@inertiajs/vue3';
+import { Head, router } from '@inertiajs/vue3';
 import type { MenuItem } from 'primevue/menuitem';
 
 const breadcrumbItems: MenuItem[] = [
@@ -21,13 +16,15 @@ const breadcrumbItems: MenuItem[] = [
     },
 ];
 
-export default {
-    layout: composeLayouts(createLayout(AppLayout, { breadcrumbs: breadcrumbItems }), createLayout(SettingsLayout)),
-};
+defineOptions({ layout: [AppLayout, SettingsLayout] });
 </script>
 
 <template>
     <Head title="Appearance settings" />
+
+    <Teleport defer to="#breadcrumbs">
+        <Breadcrumbs :breadcrumbs="breadcrumbItems" class="bg-transparent" />
+    </Teleport>
 
     <div class="space-y-6">
         <HeadingSmall title="Appearance settings" description="Update your account's appearance settings" />

@@ -8,10 +8,9 @@ export const SIDEBAR_WIDTH_ICON = '3rem';
 export const SIDEBAR_KEYBOARD_SHORTCUT = 'b';
 
 const getInitialSidebarState = () => {
-    const cookieValue = document.cookie.split('; ').find((row) => row.startsWith(SIDEBAR_COOKIE_NAME));
+    const cookieValue = document.cookie.split('; ').find((row) => row.startsWith(`${SIDEBAR_COOKIE_NAME}=`));
     if (cookieValue) {
-        const value = cookieValue.split('=')[1];
-        return value === 'true';
+        return cookieValue.split('=')[1] === 'true';
     }
     return true; // Default to open if cookie is not set
 };
@@ -35,34 +34,36 @@ export const useSidebar = (isOpen?: boolean) => {
             }
         }
 
-        // 1) intercept pushState/replaceState → dispatch custom event
-        const origPush = history.pushState;
-        const origReplace = history.replaceState;
+        // capture *bound* originals to avoid unbound-method lint
+        const origPush: History['pushState'] = history.pushState.bind(history);
+        const origReplace: History['replaceState'] = history.replaceState.bind(history);
 
-        history.pushState = function (...args) {
-            origPush.apply(this, args);
+        // override
+        history.pushState = (...args: Parameters<History['pushState']>) => {
+            origPush(...args);
             window.dispatchEvent(new Event('locationchange'));
-            return true;
         };
-        history.replaceState = function (...args) {
-            origReplace.apply(this, args);
+        history.replaceState = (...args: Parameters<History['replaceState']>) => {
+            origReplace(...args);
             window.dispatchEvent(new Event('locationchange'));
-            return true;
         };
 
-        // 2) listen for all URL-change events
         window.addEventListener('popstate', closeMobile);
         window.addEventListener('hashchange', closeMobile);
         window.addEventListener('locationchange', closeMobile);
+
+        onUnmounted(() => {
+            // restore originals
+            history.pushState = origPush;
+            history.replaceState = origReplace;
+
+            window.removeEventListener('popstate', closeMobile);
+            window.removeEventListener('hashchange', closeMobile);
+            window.removeEventListener('locationchange', closeMobile);
+        });
     });
 
-    onUnmounted(() => {
-        window.removeEventListener('popstate', closeMobile);
-        window.removeEventListener('hashchange', closeMobile);
-        window.removeEventListener('locationchange', closeMobile);
-    });
-
-    // …rest of your setOpen, toggleSidebar, state, keydown, etc.
+    // helpers
     const setOpen = (v: boolean) => {
         open.value = v;
         document.cookie = `${SIDEBAR_COOKIE_NAME}=${v}; path=/; max-age=${SIDEBAR_COOKIE_MAX_AGE}`;

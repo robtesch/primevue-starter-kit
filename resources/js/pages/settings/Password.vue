@@ -1,9 +1,13 @@
 <script setup lang="ts">
+import Breadcrumbs from '@/components/Breadcrumbs.vue';
 import HeadingSmall from '@/components/HeadingSmall.vue';
 import InputError from '@/components/InputError.vue';
-import { Head, useForm } from '@inertiajs/vue3';
+import AppLayout from '@/layouts/AppLayout.vue';
+import SettingsLayout from '@/layouts/settings/SettingsLayout.vue';
+import { Head, router, useForm } from '@inertiajs/vue3';
 import Button from 'primevue/button';
 import FloatLabel from 'primevue/floatlabel';
+import type { MenuItem } from 'primevue/menuitem';
 import Password from 'primevue/password';
 
 const form = useForm({
@@ -18,15 +22,8 @@ const updatePassword = () => {
         onSuccess: () => form.reset(),
     });
 };
-</script>
 
-<script lang="ts">
-import { composeLayouts } from '@/composables/composeLayouts';
-import { createLayout } from '@/composables/createLayout';
-import AppLayout from '@/layouts/AppLayout.vue';
-import SettingsLayout from '@/layouts/settings/SettingsLayout.vue';
-import { router } from '@inertiajs/vue3';
-import type { MenuItem } from 'primevue/menuitem';
+defineOptions({ layout: [AppLayout, SettingsLayout] });
 
 const breadcrumbItems: MenuItem[] = [
     {
@@ -36,14 +33,14 @@ const breadcrumbItems: MenuItem[] = [
         },
     },
 ];
-
-export default {
-    layout: composeLayouts(createLayout(AppLayout, { breadcrumbs: breadcrumbItems }), createLayout(SettingsLayout)),
-};
 </script>
 
 <template>
     <Head title="Password settings" />
+
+    <Teleport defer to="#breadcrumbs">
+        <Breadcrumbs :breadcrumbs="breadcrumbItems" class="bg-transparent" />
+    </Teleport>
 
     <div class="space-y-6">
         <HeadingSmall title="Update password" description="Ensure your account is using a long, random password to stay secure" />

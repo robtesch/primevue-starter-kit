@@ -8,21 +8,18 @@ import type { MenuItem } from 'primevue/menuitem';
 const sidebarNavItems: MenuItem[] = [
     {
         label: 'Profile',
-        key: 'profile',
+        key: 'profile.edit',
         href: route('profile.edit'),
-        is_current: route().current('profile.edit'),
     },
     {
         label: 'Password',
-        key: 'password',
+        key: 'password.edit',
         href: route('password.edit'),
-        is_current: route().current('password.edit'),
     },
     {
         label: 'Appearance',
         key: 'appearance',
         href: route('appearance'),
-        is_current: route().current('appearance'),
     },
 ];
 </script>
@@ -34,7 +31,7 @@ const sidebarNavItems: MenuItem[] = [
         <div class="flex flex-col lg:flex-row lg:space-x-12">
             <aside class="w-full max-w-xl lg:w-48">
                 <nav class="flex flex-col space-y-1 space-x-0">
-                    <Button v-for="item in sidebarNavItems" :key="item.key" :text="!item.is_current" fluid>
+                    <Button v-for="item in sidebarNavItems" :key="item.key" :text="!route().current(item.key ?? '')" fluid>
                         <Link :href="item.href" class="w-full text-left">
                             {{ item.label }}
                         </Link>

@@ -1,13 +1,9 @@
 <script setup lang="ts">
-import { Head } from '@inertiajs/vue3';
-import PlaceholderPattern from '../components/PlaceholderPattern.vue';
-</script>
-
-<script lang="ts">
-import { createLayout } from '@/composables/createLayout';
+import Breadcrumbs from '@/components/Breadcrumbs.vue';
 import AppLayout from '@/layouts/AppLayout.vue';
-import { router } from '@inertiajs/vue3';
+import { Head, router } from '@inertiajs/vue3';
 import type { MenuItem } from 'primevue/menuitem';
+import PlaceholderPattern from '../components/PlaceholderPattern.vue';
 
 const breadcrumbs: MenuItem[] = [
     {
@@ -18,13 +14,15 @@ const breadcrumbs: MenuItem[] = [
     },
 ];
 
-export default {
-    layout: createLayout(AppLayout, { breadcrumbs: breadcrumbs }),
-};
+defineOptions({ layout: AppLayout });
 </script>
 
 <template>
     <Head title="Dashboard" />
+
+    <Teleport defer to="#breadcrumbs">
+        <Breadcrumbs :breadcrumbs="breadcrumbs" class="bg-transparent" />
+    </Teleport>
 
     <div class="flex h-full flex-1 flex-col gap-4 overflow-x-auto rounded-xl p-4">
         <div class="grid auto-rows-min gap-4 md:grid-cols-3">

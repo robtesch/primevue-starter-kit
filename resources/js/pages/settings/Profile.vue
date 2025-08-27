@@ -1,12 +1,25 @@
 <script setup lang="ts">
+import Breadcrumbs from '@/components/Breadcrumbs.vue';
 import DeleteUser from '@/components/DeleteUser.vue';
 import HeadingSmall from '@/components/HeadingSmall.vue';
 import InputError from '@/components/InputError.vue';
+import AppLayout from '@/layouts/AppLayout.vue';
+import SettingsLayout from '@/layouts/settings/SettingsLayout.vue';
 import { AppPageProps, type User } from '@/types';
-import { Head, Link, useForm, usePage } from '@inertiajs/vue3';
+import { Head, Link, router, useForm, usePage } from '@inertiajs/vue3';
 import Button from 'primevue/button';
 import FloatLabel from 'primevue/floatlabel';
 import InputText from 'primevue/inputtext';
+import type { MenuItem } from 'primevue/menuitem';
+
+const breadcrumbItems: MenuItem[] = [
+    {
+        label: 'Profile settings',
+        command: () => {
+            router.visit(route('profile.edit'));
+        },
+    },
+];
 
 interface Props {
     mustVerifyEmail: boolean;
@@ -28,32 +41,16 @@ const submit = () => {
         preserveScroll: true,
     });
 };
-</script>
 
-<script lang="ts">
-import { composeLayouts } from '@/composables/composeLayouts';
-import { createLayout } from '@/composables/createLayout';
-import AppLayout from '@/layouts/AppLayout.vue';
-import SettingsLayout from '@/layouts/settings/SettingsLayout.vue';
-import { router } from '@inertiajs/vue3';
-import type { MenuItem } from 'primevue/menuitem';
-
-const breadcrumbItems: MenuItem[] = [
-    {
-        label: 'Profile settings',
-        command: () => {
-            router.visit(route('profile.edit'));
-        },
-    },
-];
-
-export default {
-    layout: composeLayouts(createLayout(AppLayout, { breadcrumbs: breadcrumbItems }), createLayout(SettingsLayout)),
-};
+defineOptions({ layout: [AppLayout, SettingsLayout] });
 </script>
 
 <template>
     <Head title="Profile settings" />
+
+    <Teleport defer to="#breadcrumbs">
+        <Breadcrumbs :breadcrumbs="breadcrumbItems" class="bg-transparent" />
+    </Teleport>
 
     <div class="flex flex-col space-y-6">
         <HeadingSmall title="Profile information" description="Update your name and email address" />

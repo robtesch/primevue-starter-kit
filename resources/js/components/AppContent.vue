@@ -8,7 +8,7 @@ const props = defineProps<Props>();
 
 <template>
     <main
-        class="relative m-2 flex w-[calc((100%)-var(--sidebar-width)-(--spacing(4)))] flex-1 flex-col bg-background md:ml-0 md:rounded-xl md:shadow-sm"
+        class="relative m-2 flex w-[calc((100%)-var(--sidebar-width)-(--spacing(4)))] flex-1 flex-col bg-background md:ml-1 md:rounded-xl md:shadow-sm"
         :class="props.class"
     >
         <slot />

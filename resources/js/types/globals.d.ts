@@ -1,5 +1,10 @@
 import { AppPageProps } from '@/types/index';
 import Tooltip from 'primevue/tooltip';
+import { route as ziggyRoute } from 'ziggy-js';
+
+declare global {
+    var route: typeof ziggyRoute;
+}
 
 // Extend ImportMeta interface for Vite...
 declare module 'vite/client' {
@@ -20,11 +25,18 @@ declare module '@inertiajs/core' {
 
 declare module 'vue' {
     interface ComponentCustomProperties {
+        route: typeof ziggyRoute;
         $inertia: typeof Router;
         $page: Page;
         $headManager: ReturnType<typeof createHeadManager>;
     }
     interface GlobalDirectives {
         vTooltip: typeof Tooltip;
+    }
+}
+
+declare module '@vue/runtime-core' {
+    interface ComponentCustomProperties {
+        route: typeof ziggyRoute;
     }
 }

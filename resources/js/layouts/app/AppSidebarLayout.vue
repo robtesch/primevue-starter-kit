@@ -2,21 +2,12 @@
 import AppContent from '@/components/AppContent.vue';
 import AppShell from '@/components/AppShell.vue';
 import AppSidebarHeader from '@/components/AppSidebarHeader.vue';
-import type { MenuItem } from 'primevue/menuitem';
-
-interface Props {
-    breadcrumbs?: MenuItem[];
-}
-
-const props = withDefaults(defineProps<Props>(), {
-    breadcrumbs: () => [],
-});
 </script>
 
 <template>
     <AppShell>
         <AppContent class="overflow-x-hidden">
-            <AppSidebarHeader :breadcrumbs="props.breadcrumbs" />
+            <AppSidebarHeader />
             <slot />
         </AppContent>
     </AppShell>
